@@ -1,0 +1,14 @@
+E:\The Maze of Questions\bin\Debug\net9.0\The Maze of Questions.exe
+E:\The Maze of Questions\bin\Debug\net9.0\The Maze of Questions.deps.json
+E:\The Maze of Questions\bin\Debug\net9.0\The Maze of Questions.runtimeconfig.json
+E:\The Maze of Questions\bin\Debug\net9.0\The Maze of Questions.dll
+E:\The Maze of Questions\bin\Debug\net9.0\The Maze of Questions.pdb
+E:\The Maze of Questions\obj\Debug\net9.0\The Maze of Questions.GeneratedMSBuildEditorConfig.editorconfig
+E:\The Maze of Questions\obj\Debug\net9.0\The Maze of Questions.AssemblyInfoInputs.cache
+E:\The Maze of Questions\obj\Debug\net9.0\The Maze of Questions.AssemblyInfo.cs
+E:\The Maze of Questions\obj\Debug\net9.0\The Maze of Questions.csproj.CoreCompileInputs.cache
+E:\The Maze of Questions\obj\Debug\net9.0\The Maze of Questions.dll
+E:\The Maze of Questions\obj\Debug\net9.0\refint\The Maze of Questions.dll
+E:\The Maze of Questions\obj\Debug\net9.0\The Maze of Questions.pdb
+E:\The Maze of Questions\obj\Debug\net9.0\The Maze of Questions.genruntimeconfig.cache
+E:\The Maze of Questions\obj\Debug\net9.0\ref\The Maze of Questions.dll
