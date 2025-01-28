@@ -1,13 +1,10 @@
 ﻿using System;
 class Program
 {
-    static int filas = 21;
-    static int columnas = 21;
-    
+    static int filas = 20;
+    static int columnas = 50;
 
-  
 
-  
     static char[,] laberinto = new char[filas, columnas];
 
     static int jugadorX, jugadorY;
@@ -28,6 +25,7 @@ class Program
     static bool opcionValidaJugador2 = false;
 
 
+
     static bool Teletransportación = false;
     static bool Inmortalidad = false;
     static bool InteligenciaSuprema = false;
@@ -40,6 +38,18 @@ class Program
     static int Inamovilidad_Activa = 3;
     static int Dios_Activa = 3;
 
+    static DateTime ultimoUsoTeletransportacion = DateTime.MinValue;
+    static DateTime ultimoUsoInmortalidad = DateTime.MinValue;
+    static DateTime ultimoUsoInteligenciaSuprema = DateTime.MinValue;
+    static DateTime ultimoUsoInamovilidad = DateTime.MinValue;
+    static DateTime ultimoUsoDios = DateTime.MinValue;
+
+    static int cooldownTeletransportacion = 10; // 10 segundos de cooldown
+    static int cooldownInmortalidad = 15; // 15 segundos de cooldown
+    static int cooldownInteligenciaSuprema = 20; // 20 segundos de cooldown
+    static int cooldownInamovilidad = 25; // 25 segundos de cooldown
+    static int cooldownDios = 30; // 30 segundos de cooldown
+
 
 
     static bool Teletransportación2 = false;
@@ -48,6 +58,7 @@ class Program
     static bool Inamovilidad2 = false;
     static bool Dios2 = false;
 
+
     static int Teletransportación_Activa2 = 3;
     static int Inmortalidad_Activa2 = 3;
     static int InteligenciaSuprema_Activa2 = 3;
@@ -55,8 +66,265 @@ class Program
     static int Dios_Activa2 = 3;
 
 
+    static DateTime ultimoUsoTeletransportacion2 = DateTime.MinValue;
+    static DateTime ultimoUsoInmortalidad2 = DateTime.MinValue;
+    static DateTime ultimoUsoInteligenciaSuprema2 = DateTime.MinValue;
+    static DateTime ultimoUsoInamovilidad2 = DateTime.MinValue;
+    static DateTime ultimoUsoDios2 = DateTime.MinValue;
 
-    static void SeleccionarHabilidad(int jugador)
+    static int cooldownTeletransportacion2 = 10; // 10 segundos de cooldown
+    static int cooldownInmortalidad2 = 15; // 15 segundos de cooldown
+    static int cooldownInteligenciaSuprema2 = 20; // 20 segundos de cooldown
+    static int cooldownInamovilidad2 = 25; // 25 segundos de cooldown
+    static int cooldownDios2 = 30; // 30 segundos de cooldown
+
+
+    static bool PuedeUsarHabilidad(DateTime ultimoUso, int cooldown)
+    {
+        return (DateTime.Now - ultimoUso).TotalSeconds >= cooldown;
+    }
+
+
+    static void Main(string[] args)
+    {
+        Beggining();
+
+
+        string opcion;
+
+        while (!opcionValida)
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("¡Bienvenido al Laberinto de Preguntas!");
+            Console.ResetColor();
+            Console.WriteLine("Toque 1 para Empezar");
+            Console.WriteLine("Toque 2 para ver las reglas del juego");
+            Console.WriteLine("Toque 3 para Salir");
+
+            Console.Write("Elige una opción (1-3): ");
+
+            opcion = Console.ReadLine()!;
+
+
+            switch (opcion)
+            {
+                case "1":                     //Game
+
+                    laberinto = new char[filas, columnas];
+                    SeleccionarHabilidad(1); // Metodos
+                    SeleccionarHabilidad(2);
+                    InicializarLaberinto();  
+                    GenerarLaberinto();
+                    MostrarLaberinto();
+                    
+                   
+
+                    while (vidas > 0 && vidas2 > 0)
+                    {
+                        ConsoleKeyInfo tecla = Console.ReadKey(true);
+
+                        if (tecla.Key == ConsoleKey.T && Teletransportación)
+                        {
+                            Teletransportar();
+                        }
+                        if (tecla.Key == ConsoleKey.V && Teletransportación2)
+                        {
+                            Teletransportar2();
+                        }
+
+                        if (tecla.Key == ConsoleKey.W || tecla.Key == ConsoleKey.S || tecla.Key == ConsoleKey.A || tecla.Key == ConsoleKey.D)
+                        {
+                            MoverJugador(tecla.Key, 1);
+                        }
+
+
+                        if (tecla.Key == ConsoleKey.UpArrow || tecla.Key == ConsoleKey.DownArrow || tecla.Key == ConsoleKey.LeftArrow || tecla.Key == ConsoleKey.RightArrow)
+                        {
+                            MoverJugador(tecla.Key, 2);
+                        }
+
+
+                        if (jugadorX == metaX && jugadorY == metaY)
+                        {
+                            Player1();
+                            Thread.Sleep(1500);
+
+                            WinGame();
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine("El jugador 1 ha ganado el juego");
+                            Thread.Sleep(1500);
+
+                            Game_Over();
+                            Thread.Sleep(1500);
+
+                            ComeBackSoon();
+                            Console.ForegroundColor = ConsoleColor.Blue;
+                            Console.WriteLine("¡Vuelve pronto! ");
+                            Console.ResetColor();
+
+                            break;
+                        }
+
+                        if (jugador2X == metaX && jugador2Y == metaY)
+                        {
+                            Player2();
+                            Thread.Sleep(1500);
+
+                            WinGame();
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine("El jugador 2 ha ganado el juego");
+                            Thread.Sleep(1500);
+
+                            Game_Over();
+                            Thread.Sleep(1500);
+
+                            ComeBackSoon();
+                            Console.ForegroundColor = ConsoleColor.Blue;
+                            Console.WriteLine("¡Vuelve pronto! ");
+                            Console.ResetColor();
+
+                            break;
+                        }
+                    }
+
+                    if (vidas <= 0)
+                    {
+                        Player1();
+                        Thread.Sleep(1500);
+
+                        You_Died();
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("¡El jugador 1 ha perdido todas sus vidas! ");
+                        Thread.Sleep(1500);
+
+                        Player2();
+                        Thread.Sleep(1500);
+
+                        WinGame();
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("¡El jugador 2 ha ganado la partida! ");
+                        Thread.Sleep(1500);
+
+                        Game_Over();
+                        Console.WriteLine("¡Fin del juego! ");
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Thread.Sleep(1500);
+
+                        ComeBackSoon();
+                        Console.ForegroundColor = ConsoleColor.Blue;
+                        Console.WriteLine("¡Vuelve pronto! ");
+                        Console.ResetColor();
+                    }
+
+                    if (vidas2 <= 0)
+                    {
+                        Player2();
+                        Thread.Sleep(1500);
+
+                        You_Died();
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("¡El jugador 2 ha perdido todas sus vidas! ");
+                        Thread.Sleep(1500);
+
+                        Player1();
+                        Thread.Sleep(1500);
+
+                        WinGame();
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("¡El jugador 1 ha ganado la partida! ");
+                        Thread.Sleep(1500);
+
+                        Game_Over();
+                        Console.WriteLine("¡Fin del juego! ");
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Thread.Sleep(1500);
+
+                        ComeBackSoon();
+                        Console.ForegroundColor = ConsoleColor.Blue;
+                        Console.WriteLine("¡Vuelve pronto! ");
+                        Console.ResetColor();
+                    }
+
+                    opcionValida = true;
+
+                    break;
+
+                case "2":
+
+                    Console.Clear();
+                    Rules();
+                    Console.WriteLine("¿ Si desea  jugar de nuevo? Elige una de las siguientes opciones: ");
+                    Console.WriteLine(" 1- Sí ");
+                    Console.WriteLine(" 2- No ");
+                    string respuesta = Console.ReadLine()!.ToLower();
+
+                    if (respuesta == "1")
+                    {
+                        Console.Clear();
+                        Main(args);
+                    }
+
+                    else if (respuesta == "2")
+                    {
+                        Console.Clear();
+                        ComeBackSoon();
+                        Console.WriteLine("¡Fin del juego! ");
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Environment.Exit(0);
+                    }
+
+                    else
+                    {
+                        Console.Clear();
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Opción invalida. Por favor, elige una opción de las dos disponibles.");
+                        Console.ResetColor();
+                        Console.Write("Elige una opción (1-2): ");
+                        Console.WriteLine(" 1- Sí ");
+                        Console.WriteLine(" 2- No ");
+
+
+                        if (respuesta == "1")
+                        {
+                            Console.Clear();
+                            Main(args);
+
+                        }
+
+                        if (respuesta == "2")
+                        {
+                            Environment.Exit(0);
+                            ComeBackSoon();
+                        }
+                    }
+
+                    opcionValida = true;
+
+                    break;
+
+                case "3":
+
+                    Console.Clear();
+                    ComeBackSoon();
+                    Console.WriteLine("¡Hasta luego!");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.ResetColor();
+
+                    opcionValida = true;
+
+                    break;
+
+                default:
+
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Opción inválida. ¡Vuelve a intertar!");
+
+                    break;
+            }
+        }
+    }
+
+static void SeleccionarHabilidad(int jugador)
 
     {
         Console.Clear();
@@ -216,263 +484,13 @@ class Program
 
 
                 }
-
-
-
             }
-
         }
         Console.ForegroundColor = ConsoleColor.DarkGray;
         Console.WriteLine("Presiona cualquier tecla para comenzar...");
+        
         Console.ResetColor();
         Console.ReadKey();
-    }
-
-
-
-    static void Main(string[] args)
-    {
-        Beggining();
-
-
-        string opcion;
-
-        while (!opcionValida)
-        {
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("¡Bienvenido al Laberinto de Preguntas!");
-            Console.ResetColor();
-            Console.WriteLine("Toque 1 para Empezar");
-            Console.WriteLine("Toque 2 para ver las reglas del juego");
-            Console.WriteLine("Toque 3 para Salir");
-
-            Console.Write("Elige una opción (1-3): ");
-
-            opcion = Console.ReadLine()!;
-
-
-            switch (opcion)
-            {
-                case "1":                     //Game
-
-                    laberinto = new char[filas, columnas];
-                    InicializarLaberinto();   // Metodos
-                    GenerarLaberinto();
-                    MostrarLaberinto();
-                    SeleccionarHabilidad(1);
-                    SeleccionarHabilidad(2);
-
-
-                    while (vidas > 0 && vidas2 > 0)
-                    {
-                        ConsoleKeyInfo tecla = Console.ReadKey(true);
-
-                        if (tecla.Key == ConsoleKey.T && Teletransportación)
-                        {
-                            Teletransportar();
-                        }
-                        if (tecla.Key == ConsoleKey.V && Teletransportación2)
-                        {
-                            Teletransportar2();
-                        }
-
-                        if (tecla.Key == ConsoleKey.W || tecla.Key == ConsoleKey.S || tecla.Key == ConsoleKey.A || tecla.Key == ConsoleKey.D)
-                        {
-                            MoverJugador(tecla.Key, 1);
-                        }
-
-
-                        if (tecla.Key == ConsoleKey.UpArrow || tecla.Key == ConsoleKey.DownArrow || tecla.Key == ConsoleKey.LeftArrow || tecla.Key == ConsoleKey.RightArrow)
-                        {
-                            MoverJugador(tecla.Key, 2);
-                        }
-
-
-                        if (jugadorX == metaX && jugadorY == metaY)
-                        {
-                            Player1();
-                            Thread.Sleep(1500);
-
-                            WinGame();
-                            Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine("El jugador 1 ha ganado el juego");
-                            Thread.Sleep(1500);
-
-                            Game_Over();
-                            Thread.Sleep(1500);
-
-                            ComeBackSoon();
-                            Console.ForegroundColor = ConsoleColor.Blue;
-                            Console.WriteLine("¡Vuelve pronto! ");
-                            Console.ResetColor();
-
-
-                            break;
-                        }
-
-                        if (jugador2X == metaX && jugador2Y == metaY)
-                        {
-                            Player2();
-                            Thread.Sleep(1500);
-
-                            WinGame();
-                            Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine("El jugador 2 ha ganado el juego");
-                            Thread.Sleep(1500);
-
-                            Game_Over();
-                            Thread.Sleep(1500);
-
-                            ComeBackSoon();
-                            Console.ForegroundColor = ConsoleColor.Blue;
-                            Console.WriteLine("¡Vuelve pronto! ");
-                            Console.ResetColor();
-
-                            break;
-                        }
-                    }
-
-                    if (vidas <= 0)
-                    {
-                        Player1();
-                        Thread.Sleep(1500);
-
-                        You_Died();
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("¡El jugador 1 ha perdido todas sus vidas! ");
-                        Thread.Sleep(1500);
-
-                        Player2();
-                        Thread.Sleep(1500);
-
-                        WinGame();
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        Console.WriteLine("¡El jugador 2 ha ganado la partida! ");
-                        Thread.Sleep(1500);
-
-                        Game_Over();
-                        Console.WriteLine("¡Fin del juego! ");
-                        Console.ForegroundColor = ConsoleColor.White;
-                        Thread.Sleep(1500);
-
-                        ComeBackSoon();
-                        Console.ForegroundColor = ConsoleColor.Blue;
-                        Console.WriteLine("¡Vuelve pronto! ");
-                        Console.ResetColor();
-
-                    }
-
-                    if (vidas2 <= 0)
-                    {
-                        Player2();
-                        Thread.Sleep(1500);
-
-                        You_Died();
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("¡El jugador 2 ha perdido todas sus vidas! ");
-                        Thread.Sleep(1500);
-
-                        Player1();
-                        Thread.Sleep(1500);
-
-                        WinGame();
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        Console.WriteLine("¡El jugador 1 ha ganado la partida! ");
-                        Thread.Sleep(1500);
-
-                        Game_Over();
-                        Console.WriteLine("¡Fin del juego! ");
-                        Console.ForegroundColor = ConsoleColor.White;
-                        Thread.Sleep(1500);
-
-                        ComeBackSoon();
-                        Console.ForegroundColor = ConsoleColor.Blue;
-                        Console.WriteLine("¡Vuelve pronto! ");
-                        Console.ResetColor();
-
-                    }
-
-                    opcionValida = true;
-
-                    break;
-
-                case "2":
-
-                    Console.Clear();
-                    Rules();
-                    Console.WriteLine("¿ Si desea  jugar de nuevo? Elige una de las siguientes opciones: ");
-                    Console.WriteLine(" 1- Sí ");
-                    Console.WriteLine(" 2- No ");
-                    string respuesta = Console.ReadLine()!.ToLower();
-
-                    if (respuesta == "1")
-                    {
-                        Console.Clear();
-                        Main(args);
-                    }
-
-                    else if (respuesta == "2")
-                    {
-                        Console.Clear();
-                        ComeBackSoon();
-                        Console.WriteLine("¡Fin del juego! ");
-                        Console.ForegroundColor = ConsoleColor.White;
-                        Environment.Exit(0);
-                    }
-
-                    else
-                    {
-                        Console.Clear();
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("Opción invalida. Por favor, elige una opción de las dos disponibles.");
-                        Console.ResetColor();
-                        Console.Write("Elige una opción (1-2): ");
-                        Console.WriteLine(" 1- Sí ");
-                        Console.WriteLine(" 2- No ");
-
-
-                        if (respuesta == "1")
-                        {
-                            Console.Clear();
-                            Main(args);
-
-                        }
-
-                        if (respuesta == "2")
-                        {
-                            Environment.Exit(0);
-                            ComeBackSoon();
-                        }
-                    }
-
-                    opcionValida = true;
-
-                    break;
-
-                
-
-
-                case "3":
-
-                    Console.Clear();
-                    ComeBackSoon();
-                    Console.WriteLine("¡Hasta luego!");
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.ResetColor();
-
-                    opcionValida = true;
-
-                    break;
-
-                default:
-
-
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Opción inválida. ¡Vuelve a intertar!");
-
-                    break;
-            }
-        }
     }
 
 
@@ -490,6 +508,7 @@ class Program
 
     static void GenerarLaberinto()
     {
+        ;
         // Inicializa el laberinto con paredes en todas las casillas
         for (int i = 0; i < filas; i++)
         {
@@ -507,7 +526,7 @@ class Program
         jugadorX = 1;
         jugadorY = 1;
         jugador2X = 1;
-        jugador2Y = columnas - 2;
+        jugador2Y =columnas - 2 ;
 
         // Genera el laberinto utilizando el método de backtrack
         GenerarLaberintoBacktrack(jugadorX, jugadorY);
@@ -734,31 +753,51 @@ class Program
             }
 
 
+
+
             if (laberinto[nuevoX, nuevoY] == 'T')
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("¡ Jugador " + jugador + " has caído en una trampa ");
-                Thread.Sleep(500);
+                Thread.Sleep(1500);
                 Console.ResetColor();
 
 
 
-                if (jugador == 1 && Inmortalidad && Inmortalidad_Activa > 0 || Dios && Dios_Activa > 0)
+                if (jugador == 1 && Inmortalidad && Inmortalidad_Activa > 0)
                 {
+                    UsarInmortalidad(1);
                     Inmortalidad_Activa--;
-                    Dios_Activa--;
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("¡Jugador 1 es inmortal! No pierde vidas.");
-                    Thread.Sleep(500);
+                    Thread.Sleep(1500);
                     Console.ResetColor();
                 }
-                else if (jugador == 2 && Inmortalidad2 && Inmortalidad_Activa2 > 0 || Dios2 && Dios_Activa2 > 0)
+                else if (jugador == 2 && Inmortalidad2 && Inmortalidad_Activa2 > 0)
                 {
+                    UsarInmortalidad(2);
                     Inmortalidad_Activa2--;
-                    Dios_Activa2--;
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("¡Jugador 2 es inmortal! No pierde vidas.");
-                    Thread.Sleep(500);
+                    Thread.Sleep(1500);
+                    Console.ResetColor();
+                }
+                else if (jugador == 1 && Dios && Dios_Activa > 0)
+                {
+                    UsarDios(1);
+                    Dios_Activa--;
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("¡Jugador 1 es Dios! No pierde vidas.");
+                    Thread.Sleep(1500);
+                    Console.ResetColor();
+                }
+                else if (jugador == 2 && Dios2 && Dios_Activa2 > 0)
+                {
+                    UsarDios(2);
+                    Dios_Activa2--;
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("¡Jugador 2 es Dios! No pierde vidas.");
+                    Thread.Sleep(1500);
                     Console.ResetColor();
                 }
                 else
@@ -773,7 +812,7 @@ class Program
                     }
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("¡Jugador " + jugador + " ha caído en una trampa! Pierde una vida.");
-                    Thread.Sleep(500);
+                    Thread.Sleep(1500);
                     Console.ResetColor();
                 }
 
@@ -784,25 +823,39 @@ class Program
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("¡Jugador " + jugador + " has caído en una pregunta");
-                Thread.Sleep(500);
+                Thread.Sleep(1500);
                 Console.ResetColor();
 
-                if (jugador == 1 && InteligenciaSuprema && InteligenciaSuprema_Activa > 0 || Dios && Dios_Activa > 0)
+                if (jugador == 1 && InteligenciaSuprema && InteligenciaSuprema_Activa > 0)
                 {
+                    UsarInteligenciaSuprema(1);
                     InteligenciaSuprema_Activa--;
-                    Dios_Activa--;
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("¡Jugador 1 tiene inteligencia suprema! No responde preguntas.");
-                    Thread.Sleep(500);
+                    Thread.Sleep(1500);
                     Console.ResetColor();
                 }
-                else if (jugador == 2 && InteligenciaSuprema2 && InteligenciaSuprema_Activa2 > 0 || Dios2 && Dios_Activa2 > 0)
+                else if (jugador == 2 && InteligenciaSuprema2 && InteligenciaSuprema_Activa2 > 0)
                 {
+                    UsarInteligenciaSuprema(2);
                     InteligenciaSuprema_Activa2--;
+                    Thread.Sleep(1500);
+                    Console.ResetColor();
+                }
+                else if (jugador == 1 && Dios && Dios_Activa > 0)
+                {
+                    UsarDios(1);
+                    Dios_Activa--;
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("¡Jugador 1 es Dios! No responde preguntas.");
+                    Thread.Sleep(1500);
+                    Console.ResetColor();
+                }
+                else if (jugador == 2 && Dios2 && Dios_Activa2 > 0)
+                {
+                    UsarDios(2);
                     Dios_Activa2--;
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("¡Jugador 2 tiene inteligencia suprema! No responde preguntas.");
-                    Thread.Sleep(500);
+                    Console.WriteLine("¡Jugador 2 es Dios! No responde preguntas.");
+                    Thread.Sleep(1500);
                     Console.ResetColor();
                 }
                 else
@@ -814,27 +867,42 @@ class Program
 
             if (laberinto[nuevoX, nuevoY] == 'R')
             {
+
                 Console.ForegroundColor = ConsoleColor.Magenta;
                 Console.WriteLine("¡Jugador " + jugador + " has caído en una trampa de reinicio");
-                Thread.Sleep(500);
+                Thread.Sleep(1500);
                 Console.ResetColor();
 
-                if (jugador == 1 && Inamovilidad && Inamovilidad_Activa > 0 || Dios && Dios_Activa > 0)
+                if (jugador == 1 && Inamovilidad && Inamovilidad_Activa > 0)
                 {
+                    UsarInamovilidad(1);
                     Inamovilidad_Activa--;
-                    Dios_Activa--;
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("¡Jugador 1 es inamovible! No vuelve al inicio.");
-                    Thread.Sleep(500);
+                    Thread.Sleep(1500);
                     Console.ResetColor();
                 }
-                else if (jugador == 2 && Inamovilidad2 && Inamovilidad_Activa2 > 0 || Dios2 && Dios_Activa2 > 0)
+                else if (jugador == 2 && Inamovilidad2 && Inamovilidad_Activa2 > 0)
                 {
+                    UsarInamovilidad(2);
                     Inamovilidad_Activa2--;
+                    Thread.Sleep(1500);
+                    Console.ResetColor();
+                }
+                else if (jugador == 1 && Dios && Dios_Activa > 0)
+                {
+                    UsarDios(1);
+                    Dios_Activa--;
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("¡Jugador 1 es Dios! No se reinicia.");
+                    Thread.Sleep(1500);
+                    Console.ResetColor();
+                }
+                else if (jugador == 2 && Dios2 && Dios_Activa2 > 0)
+                {
+                    UsarDios(2);
                     Dios_Activa2--;
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("¡Jugador 2 es inamovible! No vuelve al inicio.");
-                    Thread.Sleep(500);
+                    Console.WriteLine("¡Jugador 2 es Dios! No se reinicia.");
+                    Thread.Sleep(1500);
                     Console.ResetColor();
                 }
                 else
@@ -859,76 +927,362 @@ class Program
 
     static void Teletransportar()
     {
-        if (Teletransportación_Activa > 0)
+        if (PuedeUsarHabilidad(ultimoUsoTeletransportacion, cooldownTeletransportacion))
         {
-            Teletransportación_Activa--;
-            Random rand = new Random();
-            int nuevaX, nuevaY;
-            do
+            if (Teletransportación_Activa > 0)
             {
-                nuevaX = rand.Next(1, filas - 1);
-                nuevaY = rand.Next(1, columnas - 1);
-            }
-            while (laberinto[nuevaX, nuevaY] == '#');
+                Teletransportación_Activa--;
+                Random rand = new Random();
+                int nuevaX, nuevaY;
+                do
+                {
+                    nuevaX = rand.Next(1, filas - 1);
+                    nuevaY = rand.Next(1, columnas - 1);
+                }
+                while (laberinto[nuevaX, nuevaY] == '#');
 
-            laberinto[jugadorX, jugadorY] = ' ';
-            jugadorX = nuevaX;
-            jugadorY = nuevaY;
-            laberinto[jugadorX, jugadorY] = 'X';
-            MostrarLaberinto();
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("¡Jugador 1 se teletransporta!");
-            Thread.Sleep(500);
-            Console.ResetColor();
+                laberinto[jugadorX, jugadorY] = ' ';
+                jugadorX = nuevaX;
+                jugadorY = nuevaY;
+                laberinto[jugadorX, jugadorY] = 'X';
+                MostrarLaberinto();
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("¡Jugador 1 se teletransporta!");
+                Thread.Sleep(1500);
+                Console.ResetColor();
+
+                ultimoUsoTeletransportacion = DateTime.Now; // Registrar el último uso
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("¡Jugador 1 no puede teletransportarse más!");
+                Thread.Sleep(1500);
+                Console.ResetColor();
+            }
         }
         else
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("¡Jugador 1 no puede teletransportarse más!");
-            Thread.Sleep(500);
+            Console.WriteLine("¡La habilidad de teletransportación está en cooldown!");
+            Thread.Sleep(1500);
             Console.ResetColor();
         }
-
     }
+
 
     static void Teletransportar2()
     {
-        if (Teletransportación_Activa2 > 0)
+        if (PuedeUsarHabilidad(ultimoUsoTeletransportacion2, cooldownTeletransportacion2))
         {
-            Teletransportación_Activa2--;
-            Random rand = new Random();
-            int nuevaX, nuevaY;
-            do
+            if (Teletransportación_Activa2 > 0)
             {
-                nuevaX = rand.Next(1, filas - 1);
-                nuevaY = rand.Next(1, columnas - 1);
-            }
-            while (laberinto[nuevaX, nuevaY] == '#');
+                Teletransportación_Activa2--;
+                Random rand = new Random();
+                int nuevaX, nuevaY;
+                do
+                {
+                    nuevaX = rand.Next(1, filas - 1);
+                    nuevaY = rand.Next(1, columnas - 1);
+                }
+                while (laberinto[nuevaX, nuevaY] == '#');
 
-            laberinto[jugador2X, jugador2Y] = ' ';
-            jugador2X = nuevaX;
-            jugador2Y = nuevaY;
-            laberinto[jugador2X, jugador2Y] = 'O';
-            MostrarLaberinto();
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("¡Jugador 2 se teletransporta!");
-            Thread.Sleep(500);
-            Console.ResetColor();
+                laberinto[jugador2X, jugador2Y] = ' ';
+                jugador2X = nuevaX;
+                jugador2Y = nuevaY;
+                laberinto[jugador2X, jugador2Y] = 'O';
+                MostrarLaberinto();
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("¡Jugador 2 se teletransporta!");
+                Thread.Sleep(1500);
+                Console.ResetColor();
+
+                ultimoUsoTeletransportacion2 = DateTime.Now; // Registrar el último uso
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("¡Jugador 2 no puede teletransportarse más!");
+                Thread.Sleep(1500);
+                Console.ResetColor();
+            }
         }
         else
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("¡Jugador 2 no puede teletransportarse más!");
-            Thread.Sleep(500);
+            Console.WriteLine("¡La habilidad de teletransportación está en cooldown!");
+            Thread.Sleep(1500);
             Console.ResetColor();
         }
     }
 
+
+
+    static void UsarInmortalidad(int jugador)
+    {
+        if (jugador == 1)
+        {
+            if (PuedeUsarHabilidad(ultimoUsoInmortalidad, cooldownInmortalidad))
+            {
+                if (Inmortalidad_Activa > 0)
+                {
+                    Inmortalidad_Activa--;
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("¡Jugador 1 activó Inmortalidad! No perderá vidas por trampas.");
+                    Thread.Sleep(1500);
+                    Console.ResetColor();
+
+                    ultimoUsoInmortalidad = DateTime.Now; // Registrar el último uso
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("¡Jugador 1 no puede usar Inmortalidad más veces!");
+                    Thread.Sleep(1500);
+                    Console.ResetColor();
+                }
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("¡La habilidad de Inmortalidad está en cooldown!");
+                Thread.Sleep(1500);
+                Console.ResetColor();
+            }
+        }
+        else if (jugador == 2)
+        {
+            if (PuedeUsarHabilidad(ultimoUsoInmortalidad2, cooldownInmortalidad2))
+            {
+                if (Inmortalidad_Activa2 > 0)
+                {
+                    Inmortalidad_Activa2--;
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("¡Jugador 2 activó Inmortalidad! No perderá vidas por trampas.");
+                    Thread.Sleep(1500);
+                    Console.ResetColor();
+
+                    ultimoUsoInmortalidad2 = DateTime.Now; // Registrar el último uso
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("¡Jugador 2 no puede usar Inmortalidad más veces!");
+                    Thread.Sleep(1500);
+                    Console.ResetColor();
+                }
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("¡La habilidad de Inmortalidad está en cooldown!");
+                Thread.Sleep(1500);
+                Console.ResetColor();
+
+            }
+        }
+    }
+
+
+
+    static void UsarInteligenciaSuprema(int jugador)
+    {
+        if (jugador == 1)
+        {
+            if (PuedeUsarHabilidad(ultimoUsoInteligenciaSuprema, cooldownInteligenciaSuprema))
+            {
+                if (InteligenciaSuprema_Activa > 0)
+                {
+                    InteligenciaSuprema_Activa--;
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("¡Jugador 1 activó Inteligencia Suprema! No responderá preguntas.");
+                    Thread.Sleep(1500);
+                    Console.ResetColor();
+
+                    ultimoUsoInteligenciaSuprema = DateTime.Now; // Registrar el último uso
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("¡Jugador 1 no puede usar Inteligencia Suprema más veces!");
+                    Thread.Sleep(1500);
+                    Console.ResetColor();
+                }
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("¡La habilidad de Inteligencia Suprema está en cooldown!");
+                Thread.Sleep(1500);
+                Console.ResetColor();
+            }
+        }
+        else if (jugador == 2)
+        {
+            if (PuedeUsarHabilidad(ultimoUsoInteligenciaSuprema2, cooldownInteligenciaSuprema2))
+            {
+                if (InteligenciaSuprema_Activa2 > 0)
+                {
+                    InteligenciaSuprema_Activa2--;
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("¡Jugador 2 activó Inteligencia Suprema! No responderá preguntas.");
+                    Thread.Sleep(1500);
+                    Console.ResetColor();
+
+                    ultimoUsoInteligenciaSuprema2 = DateTime.Now; // Registrar el último uso
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("¡Jugador 2 no puede usar Inteligencia Suprema más veces!");
+                    Thread.Sleep(1500);
+                    Console.ResetColor();
+                }
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("¡La habilidad de Inteligencia Suprema está en cooldown!");
+                Thread.Sleep(1500);
+                Console.ResetColor();
+            }
+        }
+    }
+
+
+    static void UsarInamovilidad(int jugador)
+    {
+        if (jugador == 1)
+        {
+            if (PuedeUsarHabilidad(ultimoUsoInamovilidad, cooldownInamovilidad))
+            {
+                if (Inamovilidad_Activa > 0)
+                {
+                    Inamovilidad_Activa--;
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("¡Jugador 1 activó Inamovilidad! No será reiniciado.");
+                    Thread.Sleep(1500);
+                    Console.ResetColor();
+
+                    ultimoUsoInamovilidad = DateTime.Now; // Registrar el último uso
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("¡Jugador 1 no puede usar Inamovilidad más veces!");
+                    Thread.Sleep(1500);
+                    Console.ResetColor();
+                }
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("¡La habilidad de Inamovilidad está en cooldown!");
+                Thread.Sleep(1500);
+                Console.ResetColor();
+            }
+        }
+        else if (jugador == 2)
+        {
+            if (PuedeUsarHabilidad(ultimoUsoInamovilidad2, cooldownInamovilidad2))
+            {
+                if (Inamovilidad_Activa2 > 0)
+                {
+                    Inamovilidad_Activa2--;
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("¡Jugador 2 activó Inamovilidad! No será reiniciado.");
+                    Thread.Sleep(1500);
+                    Console.ResetColor();
+
+                    ultimoUsoInamovilidad2 = DateTime.Now; // Registrar el último uso
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("¡Jugador 2 no puede usar Inamovilidad más veces!");
+                    Thread.Sleep(1500);
+                    Console.ResetColor();
+                }
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("¡La habilidad de Inamovilidad está en cooldown!");
+                Thread.Sleep(1500);
+                Console.ResetColor();
+            }
+        }
+    }
+
+
+    static void UsarDios(int jugador)
+    {
+        if (jugador == 1)
+        {
+            if (PuedeUsarHabilidad(ultimoUsoDios, cooldownDios))
+            {
+                if (Dios_Activa > 0)
+                {
+                    Dios_Activa--;
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("¡Jugador 1 activó Dios! Es inmortal, no responde preguntas y no será reiniciado.");
+                    Thread.Sleep(1500);
+                    Console.ResetColor();
+
+                    ultimoUsoDios = DateTime.Now; // Registrar el último uso
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("¡Jugador 1 no puede usar Dios más veces!");
+                    Thread.Sleep(1500);
+                    Console.ResetColor();
+                }
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("¡La habilidad de Dios está en cooldown!");
+                Thread.Sleep(1500);
+                Console.ResetColor();
+            }
+        }
+        else if (jugador == 2)
+        {
+            if (PuedeUsarHabilidad(ultimoUsoDios2, cooldownDios2))
+            {
+                if (Dios_Activa2 > 0)
+                {
+                    Dios_Activa2--;
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("¡Jugador 2 activó Dios! Es inmortal, no responde preguntas y no será reiniciado.");
+                    Thread.Sleep(1500);
+                    Console.ResetColor();
+
+                    ultimoUsoDios2 = DateTime.Now; // Registrar el último uso
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("¡Jugador 2 no puede usar Dios más veces!");
+                    Thread.Sleep(1500);
+                    Console.ResetColor();
+                }
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("¡La habilidad de Dios está en cooldown!");
+                Thread.Sleep(1500);
+                Console.ResetColor();
+            }
+        }
+    }
 
     static void ManejarPregunta(int jugador)
     {
         Random rand = new Random();
-        int question = rand.Next(1, 4);
+        int question = rand.Next(1, 54);
         string respuestaCorrecta = "";
         string preguntaTexto = "";
 
@@ -945,6 +1299,281 @@ class Program
             case 3:
                 preguntaTexto = "¿Quién pintó 'La noche estrellada'?\n1. Pablo Picasso\n2. Vincent van Gogh\n3. Claude Monet";
                 respuestaCorrecta = "2";
+                break;
+            case 4:
+                preguntaTexto = "¿Quién escribió '100 Años de Soledad'?\n1. Gabriel García Marquez\n2. Miguel de Cervantes \n3. Federico García Lorca ";
+                respuestaCorrecta = "1";
+                break;
+
+
+            case 5:
+                preguntaTexto = "¿Quién escribió la canción 'Como Camarón'?\n1. Ricardo Arjona\n2. Estopa\n3. Joaquin Sabina";
+                respuestaCorrecta = "2";
+                break;
+
+
+            case 6:
+                preguntaTexto = "¿Quién pintó 'Viva la Vida'?\n1. Remedios Varo \n2. Salvador Dali \n3. Frida Khalo";
+                respuestaCorrecta = "3";
+                break;
+
+
+            case 7:
+                preguntaTexto = "¿Quién pintó 'La última cena'?\n1. Pablo Picasso\n2. Vincent van Gogh\n3. Leonardo Da Vinci";
+                respuestaCorrecta = "3";
+                break;
+
+
+            case 8:
+                preguntaTexto = "¿Quién escribió 'El código Da Vinci'?\n1. Lewis Carroll \n2. Leonardo Da Vinci\n3. Dan Brown ";
+                respuestaCorrecta = "3";
+                break;
+
+
+            case 9:
+                preguntaTexto = "¿Quién escribió la canción 'Highway to Hell'?\n1. Red Hot Chili Peppers\n2. AC/DC \n3. Linkin Park ";
+                respuestaCorrecta = "2";
+                break;
+
+
+            case 10:
+                preguntaTexto = "¿Quién pintó 'El tercer mundo'?\n1. Wilfredo Lam  \n2. Amelia Pelaéz   \n3. Eduardo Abela ";
+                respuestaCorrecta = "1";
+                break;
+
+
+            case 11:
+                preguntaTexto = "¿Quién escribió 'El Arte de la Guerra'?\n1. Sun Tzu \n2. Charles Yu \n3. Kevin Kwan ";
+                respuestaCorrecta = "1";
+                break;
+
+            case 12:
+                preguntaTexto = "¿Quién escribió la canción 'Mariposa Traicionera'?\n1. Melendi \n2. Maná \n3. Marco Antonio Solís  ";
+                respuestaCorrecta = "2";
+                break;
+
+            case 13:
+                preguntaTexto = "¿Quién escribió la canción 'Es Épico'?\n1. Canserbero\n2. Residente \n3. Aldo ";
+                respuestaCorrecta = "1";
+                break;
+
+            case 14:
+                preguntaTexto = "¿Quién escribió la canción 'Lágrimas desordenadas'?\n1. Julio Iglesias\n2. David Bisbal  \n3. Melendi ";
+                respuestaCorrecta = "3";
+                break;
+
+
+            case 15:
+                preguntaTexto = "¿Quién escribió la canción 'Somebody That I Used To Know'?\n1. Kado\n2. Gotye \n3. Hozier  ";
+                respuestaCorrecta = "2";
+                break;
+            case 16:
+                preguntaTexto = "¿Cuál es la capital de Cuba'?\n1.La Habana\n2.Artemisa \n3. Pinar del Río ";
+                respuestaCorrecta = "1";
+                break;
+
+
+            case 17:
+                preguntaTexto = "¿Cuál es la capital de Inglaterra'?\n1.Manchester\n2.Londres \n3. Liverpool  ";
+                respuestaCorrecta = "2";
+                break;
+
+
+            case 18:
+                preguntaTexto = "¿Cuál es la capital de Alemania'?\n1. Berlín\n2. Hamburgo\n3. Múnich  ";
+                respuestaCorrecta = "1";
+                break;
+
+
+            case 19:
+                preguntaTexto = "¿Cuál es la capital de Japón'?\n1. Osaka\n2. Kioto \n3. Tokio";
+                respuestaCorrecta = "3";
+                break;
+
+
+            case 20:
+                preguntaTexto = "¿Cuál es la capital de España'?\n1.Madrid \n2.Barcelona \n3. Valencia ";
+                respuestaCorrecta = "1";
+                break;
+
+
+            case 21:
+                preguntaTexto = "¿Cuál es la capital de Estados Unidos'?\n1.Whashington DC\n2. Miami \n3. Texas ";
+                respuestaCorrecta = "1";
+                break;
+            case 22:
+                preguntaTexto = "¿Cuánto es 45 a la 2?\n1. 2025\n2. 4555\n3. 2500";
+                respuestaCorrecta = "1";
+                break;
+
+
+            case 23:
+                preguntaTexto = "¿Cuál es el valor de Pi ?\n1. 1,43 \n2. 3,41\n3. 3,14";
+                respuestaCorrecta = "2";
+                break;
+
+            case 24:
+                preguntaTexto = "¿Cuál es el únco número primo par?\n1. 4\n2. 6\n3. 2";
+                respuestaCorrecta = "3";
+                break;
+
+            case 25:
+                preguntaTexto = "¿Quién es el padre del Álgebra?\n1. Bolzano \n2.Euclides\n3.Muhammad ibn Musa al-Khwarizmi";
+                respuestaCorrecta = "3";
+                break;
+
+            case 26:
+                preguntaTexto = "¿Cuál es el nombre del planeta más grande del sistema solar?\n1. Júpiter\n2. Saturno\n3. Urano";
+                respuestaCorrecta = "1";
+                break;
+
+            case 27:
+                preguntaTexto = "¿Quién es el pintor de la obra 'La Mona Lisa'?\n1. Michelangelo \n2.Leonardo da Vinci Michelangelo\n3. Rafael";
+                respuestaCorrecta = "";
+                break;
+
+            case 28:
+                preguntaTexto = "¿Cuál es el nombre del equipo de fútbol más exitoso de la historia?\n1. Real Madrid\n2. Barcelona\n3. Manchester United";
+                respuestaCorrecta = "1";
+                break;
+
+            case 29:
+                preguntaTexto = "¿Quién es el autor de la canción 'Imagine'?\n1.George Harrison \n2. Paul McCartney\n3. John Lennon";
+                respuestaCorrecta = "3";
+                break;
+
+            case 30:
+                preguntaTexto = "¿Cuál es el nombre del videojuego más vendido de la historia?\n1. Minecraft\n2. Grand Theft Auto V\n3. Tetris";
+                respuestaCorrecta = "1";
+                break;
+
+            case 31:
+                preguntaTexto = "¿Quién es el actor que interpretó a Luke Skywalker en la saga 'Star Wars'?\n1.Harrison Fordl\n2. Mark Hamill \n3. Carrie Fisher";
+                respuestaCorrecta = "2";
+                break;
+
+            case 32:
+                preguntaTexto = "¿Cuál es el nombre del libro más vendido de la historia?\n1. La Biblia\n2. El Señor de los Anillos\n3. Harry Potter";
+                respuestaCorrecta = "1";
+                break;
+
+            case 33:
+                preguntaTexto = "¿Quién es el autor de la novela '1984'?\n1.Ray Bradbury \n2. Aldous Huxley\n3.George Orwell ";
+                respuestaCorrecta = "3";
+                break;
+
+            case 34:
+                preguntaTexto = "¿Cuál es el nombre del planeta más cercano al sol?\n1. Mercurio\n2. Venus\n3. Tierra";
+                respuestaCorrecta = "1";
+                break;
+
+
+
+            case 35:
+                preguntaTexto = "¿Cuál es el nombre del río más ancho del mundo?\n1. Nilo \n2.Amazonas\n3. Yangtsé";
+                respuestaCorrecta = "2";
+                break;
+
+            case 36:
+                preguntaTexto = "¿Quién es el autor de la canción 'Bohemian Rhapsody'?\n1. Freddie Mercury\n2. Brian May\n3. Roger Taylor";
+                respuestaCorrecta = "1";
+                break;
+
+            case 37:
+                preguntaTexto = "¿Cuál es el nombre del videojuego más jugado de la historia?\n1. Minecraft\n2. Grand Theft Auto V\n3. PlayerUnknown's Battlegrounds";
+                respuestaCorrecta = "1";
+                break;
+
+
+
+            case 38:
+                preguntaTexto = "¿Quién es el autor de la novela 'El señor de los anillos'?\n1. J.R.R. Tolkien\n2. George R.R. Martin\n3. J.K. Rowling";
+                respuestaCorrecta = "1";
+                break;
+
+
+
+            case 39:
+                preguntaTexto = "¿Quién es el cantante principal de la banda 'The Rolling Stones'?\n1.Charlie Watts \n2. Keith Richards\n3.Mick Jagger ";
+                respuestaCorrecta = "3";
+                break;
+
+            case 40:
+                preguntaTexto = "¿Cuál es el nombre del planeta más lejano del sol?\n1. Neptuno\n2. Urano\n3. Plutón";
+                respuestaCorrecta = "1";
+                break;
+
+            case 41:
+                preguntaTexto = "¿Quién es el pintor de la obra 'La creación de Adán'?\n1. Leonardo da Vinci\n2. Michelangelo\n3. Rafael";
+                respuestaCorrecta = "2";
+                break;
+
+            case 42:
+                preguntaTexto = "¿Cuál es el nombre del río más ancho de África?\n1.Congo \n2.Nilo \n3. Zambeze";
+                respuestaCorrecta = "2";
+                break;
+
+            case 43:
+                preguntaTexto = "¿Quién es el autor de la canción 'Hotel California'?\n1.Pink Floyd \n2.The Eagles \n3. Queen";
+                respuestaCorrecta = "2";
+                break;
+
+
+
+            case 44:
+                preguntaTexto = "¿Cuál es el nombre del famoso científico que descubrió la penicilina?\n1. Alexander Fleming\n2. Louis Pasteur\n3. Robert Koch";
+                respuestaCorrecta = "1";
+                break;
+
+            case 45:
+                preguntaTexto = "¿Quién es el autor de la novela 'El alquimista'?\n1.Isabel Allende \n2. Gabriel García Márquez\n3.Paulo Coelho ";
+                respuestaCorrecta = "3";
+                break;
+
+            case 46:
+                preguntaTexto = "¿Cuál es el nombre del río más largo de Europa?\n1. Volga\n2. Danubio\n3. Rin";
+                respuestaCorrecta = "1";
+                break;
+
+            case 47:
+                preguntaTexto = "¿Quién es el cantante principal de la banda 'Queen'?\n1.  Brian May\n2.Freddie Mercury\n3. Roger Taylor";
+                respuestaCorrecta = "2";
+                break;
+
+
+
+            case 48:
+                preguntaTexto = "¿Quién es el autor de la novela 'El señor de los anillos'?\n1. J.R.R. Tolkien\n2. George R.R. Martin\n3. J.K. Rowling";
+                respuestaCorrecta = "1";
+                break;
+
+            case 49:
+                preguntaTexto = "¿Cuál es el nombre del planeta más pequeño del sistema solar?\n1. Mercurio\n2. Venus\n3. Marte";
+                respuestaCorrecta = "1";
+                break;
+
+
+
+            case 50:
+                preguntaTexto = "¿Cuál es el nombre del río más ancho de Asia?\n1. Yangtsé\n2. Mekong\n3. Amur";
+                respuestaCorrecta = "1";
+                break;
+
+            case 51:
+                preguntaTexto = "¿Quién es el autor de la canción 'Stairway to Heaven'?\n1. Led Zeppelin\n2. Pink Floyd\n3. Queen";
+                respuestaCorrecta = "1";
+                break;
+
+
+
+            case 52:
+                preguntaTexto = "¿Cuál es el nombre del famoso científico que descubrió la gravedad?\n1.Galileo Galilei \n2.Isaac Newton \n3. Albert Einstein";
+                respuestaCorrecta = "2";
+                break;
+
+            case 53:
+                preguntaTexto = "¿Cuál es el nombre del planeta más lejano del sol?\n1. Neptuno\n2. Urano\n3. Plutón";
+                respuestaCorrecta = "1";
                 break;
 
 
@@ -1107,7 +1736,8 @@ class Program
 
           5-Dios: otorga al jugador las habilidades de Inmortalidad , Inteligencia Suprema e Inamovilidad.
 
-          Estas habilidades especiales solo se pueden utlizar una n cantidad de veces .
+          Estas habilidades especiales solo se pueden utlizar una  cantidad limitada de veces y se demoran un tiempo en recargrse por lo tanto se deben utilizar con sabiduría .
+
 
         
           El Jugador 1  aparece en el laberinto como una : X.
