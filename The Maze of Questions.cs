@@ -1,89 +1,89 @@
 ﻿using System;
 class Program
 {
-    static int filas = 31;//Cantidad de filas.
-    static int columnas = 31;//Cantidad de columnas.
+    static int filas = 31;  //Cantidad de filas.
+    static int columnas = 31;  //Cantidad de columnas.
 
 
-    static char[,] laberinto = new char[filas, columnas];
+    static char[,] laberinto = new char[filas, columnas];  //Matriz de char.
 
 
-    static int jugadorX, jugadorY;//Jugador 1
-    static int jugador2X, jugador2Y;//Jugador 2
-    static int metaX, metaY;//Meta
+    static int jugadorX, jugadorY;  //Jugador 1.
+    static int jugador2X, jugador2Y;  //Jugador 2.
+    static int metaX, metaY;  //Meta.
 
 
-    static int vidas = 3;//Vidas J1
-    static int vidas2 = 3;//vidas J2
+    static int vidas = 3;  //Vidas J1.
+    static int vidas2 = 3;  //vidas J2.
 
-    static string HabilidadJugador1 = "";//Habilidad del J1
-    static string HabilidadJugador2 = "";//Habilidad del J
+    static string HabilidadJugador1 = "";  //Habilidad del J1.
+    static string HabilidadJugador2 = "";  //Habilidad del J2.
 
-    static bool opcionValida = false;//Validacion de las opciones 
+    static bool opcionValida = false;  //Validación de las opciones.
     static bool opcionValidaJugador1 = false;
     static bool opcionValidaJugador2 = false;
 
 
-    static bool Teletransportación = false;//Habilidadesdel J1
+    static bool Teletransportación = false;  //Habilidadesdel J1.
     static bool Inmortalidad = false;
     static bool InteligenciaSuprema = false;
     static bool Inamovilidad = false;
     static bool Dios = false;
 
-    static int Teletransportación_Activa = 3;//Cantidad de veces que se puede usar cada Habilidad
-    static int Inmortalidad_Activa = 4;
-    static int InteligenciaSuprema_Activa = 4;
-    static int Inamovilidad_Activa = 4;
+    static int Teletransportación_Activa = 2;  //Cantidad de veces que se puede usar cada Habilidad.
+    static int Inmortalidad_Activa = 3;
+    static int InteligenciaSuprema_Activa = 3;
+    static int Inamovilidad_Activa = 3;
     static int Dios_Activa = 2;
 
-    static DateTime ultimoUsoTeletransportacion = DateTime.MinValue;//Método para calcular el tiempo de uso de cada habilidad del J1
+    static DateTime ultimoUsoTeletransportacion = DateTime.MinValue;  //Método para calcular el tiempo de uso de cada habilidad del J1.
     static DateTime ultimoUsoInmortalidad = DateTime.MinValue;
     static DateTime ultimoUsoInteligenciaSuprema = DateTime.MinValue;
     static DateTime ultimoUsoInamovilidad = DateTime.MinValue;
     static DateTime ultimoUsoDios = DateTime.MinValue;
 
-    static int cooldownTeletransportacion = 30; // 30 segundos de cooldown
-    static int cooldownInmortalidad = 25; // 25 segundos de cooldown
-    static int cooldownInteligenciaSuprema = 25; // 25 segundos de cooldown
-    static int cooldownInamovilidad = 25; // 25 segundos de cooldown
-    static int cooldownDios = 30; // 30 segundos de cooldown
+    static int cooldownTeletransportacion = 30;// 30 segundos de cooldown.
+    static int cooldownInmortalidad = 25;// 25 segundos de cooldown.
+    static int cooldownInteligenciaSuprema = 25;// 25 segundos de cooldown.
+    static int cooldownInamovilidad = 25;// 25 segundos de cooldown.
+    static int cooldownDios = 30;// 30 segundos de cooldown.
 
 
 
-    static bool Teletransportación2 = false;
+    static bool Teletransportación2 = false;  //Habilidadesdel J2.
     static bool Inmortalidad2 = false;
     static bool InteligenciaSuprema2 = false;
     static bool Inamovilidad2 = false;
     static bool Dios2 = false;
 
 
-    static int Teletransportación_Activa2 = 3;
-    static int Inmortalidad_Activa2 = 4;
-    static int InteligenciaSuprema_Activa2 = 4;
-    static int Inamovilidad_Activa2 = 4;
+    static int Teletransportación_Activa2 = 2;
+    static int Inmortalidad_Activa2 = 3;
+    static int InteligenciaSuprema_Activa2 = 3;
+    static int Inamovilidad_Activa2 = 3;
     static int Dios_Activa2 = 2;
 
 
-    static DateTime ultimoUsoTeletransportacion2 = DateTime.MinValue;//Método para calcular el tiempo de uso de cada habilidad del J2
+    static DateTime ultimoUsoTeletransportacion2 = DateTime.MinValue;  //Método para calcular el tiempo de uso de cada habilidad del J2.
     static DateTime ultimoUsoInmortalidad2 = DateTime.MinValue;
     static DateTime ultimoUsoInteligenciaSuprema2 = DateTime.MinValue;
     static DateTime ultimoUsoInamovilidad2 = DateTime.MinValue;
     static DateTime ultimoUsoDios2 = DateTime.MinValue;
 
-    static int cooldownTeletransportacion2 =30 ; // 30 segundos de cooldown
-    static int cooldownInmortalidad2 = 25; // 25 segundos de cooldown
-    static int cooldownInteligenciaSuprema2 = 25; // 25 segundos de cooldown
-    static int cooldownInamovilidad2 = 25; // 25 segundos de cooldown
-    static int cooldownDios2 = 30; // 30 segundos de cooldown
+    static int cooldownTeletransportacion2 =30 ;// 30 segundos de cooldown.
+    static int cooldownInmortalidad2 = 25;// 25 segundos de cooldown.
+    static int cooldownInteligenciaSuprema2 = 25;// 25 segundos de cooldown.
+    static int cooldownInamovilidad2 = 25;// 25 segundos de cooldown.
+    static int cooldownDios2 = 30;// 30 segundos de cooldown.
 
 
-    static bool PuedeUsarHabilidad(DateTime ultimoUso, int cooldown)//Método para calcular si el J1 o el J2 puede usar una habilidad
+    static bool PuedeUsarHabilidad(DateTime ultimoUso, int cooldown)  //Método para calcular si el J1 o el J2 puede usar una habilidad.
     {
         return (DateTime.Now - ultimoUso).TotalSeconds >= cooldown;
     }
 
 
-    static void Main(string[] args)//Main
+    static void Main(string[] args)  //Main.
     {
         Beggining();
 
@@ -106,18 +106,18 @@ class Program
 
             switch (opcion)
             {
-                case "1":                     //Game
+                case "1":                     //Game.
 
                     laberinto = new char[filas, columnas];
 
-                    SeleccionarHabilidad(1); // Metodos
+                    SeleccionarHabilidad(1);  // Metodos.
                     SeleccionarHabilidad(2);
                     InicializarLaberinto();
                     GenerarLaberinto();
                     MostrarLaberinto();
 
 
-                    while (vidas > 0 && vidas2 > 0)
+                    while (vidas > 0 && vidas2 > 0)  //Cuando las vidas son mayores a 0.
                     {
                         ConsoleKeyInfo tecla = Console.ReadKey(true);
 
@@ -140,7 +140,7 @@ class Program
                             MoverJugador(tecla.Key, 2);
                         }
 
-                        if (jugadorX == metaX && jugadorY == metaY)
+                        if (jugadorX == metaX && jugadorY == metaY)//Cuando el jugador 1 llega a la meta
                         {
                             Player1();
                             Thread.Sleep(1500);
@@ -161,7 +161,7 @@ class Program
                             break;
                         }
 
-                        if (jugador2X == metaX && jugador2Y == metaY)
+                        if (jugador2X == metaX && jugador2Y == metaY)//Cuando el jugador 2 llega a la meta
                         {
                             Player2();
                             Thread.Sleep(1500);
@@ -183,7 +183,7 @@ class Program
                         }
                     }
 
-                    if (vidas <= 0)
+                    if (vidas <= 0)//Cuando las vidas del jugador 1 llegan a 0.
                     {
                         Player1();
                         Thread.Sleep(1500);
@@ -212,7 +212,7 @@ class Program
                         Console.ResetColor();
                     }
 
-                    if (vidas2 <= 0)
+                    if (vidas2 <= 0)//Cuando las vidas del jugador 2 llegan a 0.
                     {
                         Player2();
                         Thread.Sleep(1500);
@@ -245,7 +245,7 @@ class Program
 
                     break;
 
-                case "2":
+                case "2":  //Rules.
 
                     Console.Clear();
                     Rules();
@@ -268,7 +268,6 @@ class Program
                         Console.ForegroundColor = ConsoleColor.White;
                         Environment.Exit(0);
                     }
-
                     else
                     {
                         Console.Clear();
@@ -278,27 +277,13 @@ class Program
                         Console.Write("Elige una opción (1-2): ");
                         Console.WriteLine(" 1- Sí ");
                         Console.WriteLine(" 2- No ");
-
-
-                        if (respuesta == "1")
-                        {
-                            Console.Clear();
-                            Main(args);
-
-                        }
-
-                        if (respuesta == "2")
-                        {
-                            Environment.Exit(0);
-                            ComeBackSoon();
-                        }
                     }
 
                     opcionValida = true;
 
                     break;
 
-                case "3":
+                case "3":  //Salir
 
                     Console.Clear();
                     ComeBackSoon();
@@ -320,7 +305,7 @@ class Program
         }
     }
 
-    static void SeleccionarHabilidad(int jugador)//Método para seleccionar habilidad
+    static void SeleccionarHabilidad(int jugador)  //Método para seleccionar habilidad.
 
     {
         Console.Clear();
@@ -399,7 +384,6 @@ class Program
 
                     default:
 
-
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Opción inválida. Por favor, elige una opción entre 1-5.");
                         Console.ResetColor();
@@ -407,11 +391,9 @@ class Program
                         opcion = Console.ReadLine()!;
 
                         break;
-
                 }
             }
         }
-
         else
         {
             while (!opcionValidaJugador2)
@@ -477,8 +459,6 @@ class Program
                         opcion = Console.ReadLine()!;
 
                         break;
-
-
                 }
             }
         }
@@ -489,7 +469,7 @@ class Program
         Console.ReadKey();
     }
 
-    static void InicializarLaberinto()//Método de iniciar el laberinto
+    static void InicializarLaberinto()  //Método de iniciar el laberinto.
     {
         for (int i = 0; i < filas; i++)
         {
@@ -500,9 +480,9 @@ class Program
         }
     }
 
-    static void GenerarLaberinto()
+    static void GenerarLaberinto()  //Método de generar el laberinto.
     {
-        for (int i = 0; i < filas; i++)// Inicializa el laberinto con paredes en todas las casillas
+        for (int i = 0; i < filas; i++)  //Inicializa el laberinto con paredes en todas las casillas.
         {
             for (int j = 0; j < columnas; j++)
             {
@@ -510,89 +490,89 @@ class Program
             }
         }
 
-        metaX = filas - 2; // Establece la posición de la meta en la esquina inferior derecha
-        metaY = columnas - 2;
+         metaX = filas / 2;  //Posición de la meta en el laberinto.
+         metaY = columnas / 2;
 
-        jugadorX = 1; // Establece la posición de los jugadores en las esquinas superiores
+        jugadorX = 1;  //Establece la posición de los jugadores en las esquinas superiores.
         jugadorY = 1;
-        jugador2X = 1;
+        jugador2X = filas - 2;
         jugador2Y = columnas - 2;
 
-        GenerarLaberintoBacktrack(jugadorX, jugadorY);// Genera el laberinto utilizando el método de backtrack
+        GenerarLaberintoBacktrack(jugadorX, jugadorY);  // Genera el laberinto utilizando el método de backtrack.
         GenerarLaberintoBacktrack(jugador2X, jugador2Y);
-        AgregarTrampas();// Agrega trampas al laberinto
+        AgregarTrampas();  // Agrega trampas al laberinto
 
-        laberinto[metaX, metaY] = 'M';// Establece la posición de la meta y los jugadores en el laberinto
+        laberinto[metaX, metaY] = 'M';  // Establece la posición de la meta y los jugadores en el laberinto.
         laberinto[jugadorX, jugadorY] = 'X';
         laberinto[jugador2X, jugador2Y] = 'O';
     }
 
-    static void GenerarLaberintoBacktrack(int x, int y)
+    static void GenerarLaberintoBacktrack(int x, int y)  //Método de generar el laberinto utilizando el método de backtrack.
     {
         
-        laberinto[x, y] = ' ';// Marca la casilla actual como visitada
+        laberinto[x, y] = ' ';  // Marca la casilla actual como visitada.
 
-        int[] dx = { -1, 1, 0, 0 };// Selecciona aleatoriamente una dirección para moverse
+        int[] dx = { -1, 1, 0, 0 };  // Selecciona aleatoriamente una dirección para moverse.
         int[] dy = { 0, 0, -1, 1 };
         int[] direcciones = { 0, 1, 2, 3 };
         Shuffle(direcciones);
  
-        foreach (int direccion in direcciones)// Explora cada dirección
+        foreach (int direccion in direcciones)  // Explora cada dirección.
         {
             int nx = x + 2 * dx[direccion];
             int ny = y + 2 * dy[direccion];
 
-            if (nx >= 1 && nx < filas - 1 && ny >= 1 && ny < columnas - 1 && laberinto[nx, ny] == '#') // Verifica si la casilla es válida y no ha sido visitada
+            if (nx >= 1 && nx < filas - 1 && ny >= 1 && ny < columnas - 1 && laberinto[nx, ny] == '#') // Verifica si la casilla es válida y no ha sido visitada.
             {
-                laberinto[x + dx[direccion], y + dy[direccion]] = ' '; // Elimina la pared entre la casilla actual y la casilla siguiente
-                GenerarLaberintoBacktrack(nx, ny); // Recursivamente explora la casilla siguiente
+                laberinto[x + dx[direccion], y + dy[direccion]] = ' ';  // Elimina la pared entre la casilla actual y la casilla siguiente.
+                GenerarLaberintoBacktrack(nx, ny);   // Recursivamente explora la casilla siguiente.
             }
         }
     }
 
-    static void AgregarTrampas()
+    static void AgregarTrampas()  //Método para agregar trampas al laberinto.
     {
         int numTrampasT = 10;
         int numTrampasP = 20;
         int numTrampasR = 10;
 
-        for (int i = 0; i < numTrampasT; i++)// Agrega trampas de tipo 'T' al laberinto
+        for (int i = 0; i < numTrampasT; i++)  // Agrega trampas de tipo 'T' al laberinto.
         {
             int x = new Random().Next(1, filas - 1);
             int y = new Random().Next(1, columnas - 1);
 
-            if (laberinto[x, y] != '#') // Verifica si la casilla es válida y no es una pared
+            if (laberinto[x, y] != '#')   // Verifica si la casilla es válida y no es una pared.
             {
                
-                laberinto[x, y] = 'T'; // Agrega una trampa de tipo 'T'
+                laberinto[x, y] = 'T';   // Agrega una trampa de tipo 'T'.
             }
         }
 
-        for (int i = 0; i < numTrampasP; i++)  // Agrega trampas de tipo 'P' al laberinto
+        for (int i = 0; i < numTrampasP; i++)  // Agrega trampas de tipo 'P' al laberinto.
         {
             int x = new Random().Next(1, filas - 1);
             int y = new Random().Next(1, columnas - 1);
 
-            if (laberinto[x, y] != '#')// Verifica si la casilla es válida y no es una pared
+            if (laberinto[x, y] != '#')  // Verifica si la casilla es válida y no es una pared.
             {
-                laberinto[x, y] = 'P';// Agrega una trampa de tipo 'P'
+                laberinto[x, y] = 'P';  // Agrega una trampa de tipo 'P'.
             }
         }
 
        
-        for (int i = 0; i < numTrampasR; i++) // Agrega trampas de tipo 'R' al laberinto
+        for (int i = 0; i < numTrampasR; i++)  // Agrega trampas de tipo 'R' al laberinto.
         {
             int x = new Random().Next(1, filas - 1);
             int y = new Random().Next(1, columnas - 1);
 
-            if (laberinto[x, y] != '#') // Verifica si la casilla es válida y no es una pared
+            if (laberinto[x, y] != '#')   // Verifica si la casilla es válida y no es una pared.
             {
-                laberinto[x, y] = 'R';// Agrega una trampa de tipo 'R'
+                laberinto[x, y] = 'R';  // Agrega una trampa de tipo 'R'.
             }
         }
     }
 
-    static void Shuffle(int[] array)//Método para mezclar las direcciones
+    static void Shuffle(int[] array)  //Método para mezclar las direcciones.
     {
         int n = array.Length;
         while (n > 1)
@@ -605,7 +585,7 @@ class Program
         }
     }
 
-    static void MostrarLaberinto()//Método para mostrar el laberinto
+    static void MostrarLaberinto()  //Método para mostrar el laberinto.
     {
         Console.Clear();
         for (int i = 0; i < filas; i++)
@@ -671,7 +651,7 @@ class Program
 
     }
 
-    static void MoverJugador(ConsoleKey key, int jugador)//Método para mover el jugador
+    static void MoverJugador(ConsoleKey key, int jugador)  //Método para mover el jugador.
     {
         int nuevoX = (jugador == 1) ? jugadorX : jugador2X;
         int nuevoY = (jugador == 1) ? jugadorY : jugador2Y;
@@ -700,7 +680,7 @@ class Program
 
         if (nuevoX >= 0 && nuevoX < filas && nuevoY >= 0 && nuevoY < columnas && laberinto[nuevoX, nuevoY] != '#')
         {
-            if ((jugador == 1 && nuevoX == jugador2X && nuevoY == jugador2Y) ||       //Método para que los dos jugadores no se toquen
+            if ((jugador == 1 && nuevoX == jugador2X && nuevoY == jugador2Y) ||     //Método para que los dos jugadores no se toquen.
                 (jugador == 2 && nuevoX == jugadorX && nuevoY == jugadorY))
             {
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -709,7 +689,7 @@ class Program
                 return;
             }
 
-            if (jugador == 1)//Método para dejar la casilla vacía una vez que se mueva el jugador
+            if (jugador == 1)  //Método para dejar la casilla vacía una vez que se mueva el jugador.
             {
                 laberinto[jugadorX, jugadorY] = ' ';
                 jugadorX = nuevoX;
@@ -723,7 +703,7 @@ class Program
             }
 
 
-            if (laberinto[nuevoX, nuevoY] == 'T')//Si los jugadores caeen en una trampa 
+            if (laberinto[nuevoX, nuevoY] == 'T')  //Si los jugadores caeen en una trampa.
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("¡ Jugador " + jugador + " has caído en una trampa ");
@@ -785,7 +765,7 @@ class Program
             }
 
 
-            if (laberinto[nuevoX, nuevoY] == 'P')//Si los jugadores caeen en una pregunta 
+            if (laberinto[nuevoX, nuevoY] == 'P')  //Si los jugadores caeen en una pregunta.
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("¡Jugador " + jugador + " has caído en una pregunta");
@@ -831,7 +811,7 @@ class Program
             }
 
 
-            if (laberinto[nuevoX, nuevoY] == 'R')//Si los jugadores caeen en una trampa de reinicio
+            if (laberinto[nuevoX, nuevoY] == 'R')  //Si los jugadores caeen en una trampa de reinicio.
             {
                 Console.ForegroundColor = ConsoleColor.Magenta;
                 Console.WriteLine("¡Jugador " + jugador + " has caído en una trampa de reinicio");
@@ -889,7 +869,7 @@ class Program
         }
     }
 
-    static void Teletransportar()//Método de la Habilidad de Teletransportación
+    static void Teletransportar()  //Método de la Habilidad de Teletransportación.
     {
         if (PuedeUsarHabilidad(ultimoUsoTeletransportacion, cooldownTeletransportacion))
         {
@@ -915,7 +895,7 @@ class Program
                 Thread.Sleep(1500);
                 Console.ResetColor();
 
-                ultimoUsoTeletransportacion = DateTime.Now; // Registrar el último uso
+                ultimoUsoTeletransportacion = DateTime.Now;  // Registrar el último uso.
             }
             else
             {
@@ -961,7 +941,7 @@ class Program
                 Thread.Sleep(1500);
                 Console.ResetColor();
 
-                ultimoUsoTeletransportacion2 = DateTime.Now; // Registrar el último uso
+                ultimoUsoTeletransportacion2 = DateTime.Now;   // Registrar el último uso.
             }
             else
             {
@@ -981,7 +961,7 @@ class Program
     }
 
 
-    static void UsarInmortalidad(int jugador)//Métodos para  poder usar las Habilidades
+    static void UsarInmortalidad(int jugador)  //Métodos para  poder usar las Habilidades.
     {
         if (jugador == 1)
         {
@@ -995,7 +975,7 @@ class Program
                     Thread.Sleep(1500);
                     Console.ResetColor();
 
-                    ultimoUsoInmortalidad = DateTime.Now; // Registrar el último uso
+                    ultimoUsoInmortalidad = DateTime.Now; // Registrar el último uso.
                 }
                 else
                 {
@@ -1025,7 +1005,7 @@ class Program
                     Thread.Sleep(1500);
                     Console.ResetColor();
 
-                    ultimoUsoInmortalidad2 = DateTime.Now; // Registrar el último uso
+                    ultimoUsoInmortalidad2 = DateTime.Now;// Registrar el último uso.
                 }
                 else
                 {
@@ -1061,7 +1041,7 @@ class Program
                     Thread.Sleep(1500);
                     Console.ResetColor();
 
-                    ultimoUsoInteligenciaSuprema = DateTime.Now; // Registrar el último uso
+                    ultimoUsoInteligenciaSuprema = DateTime.Now;// Registrar el último uso.
                 }
                 else
                 {
@@ -1091,7 +1071,7 @@ class Program
                     Thread.Sleep(1500);
                     Console.ResetColor();
 
-                    ultimoUsoInteligenciaSuprema2 = DateTime.Now; // Registrar el último uso
+                    ultimoUsoInteligenciaSuprema2 = DateTime.Now;// Registrar el último uso.
                 }
                 else
                 {
@@ -1126,7 +1106,7 @@ class Program
                     Thread.Sleep(1500);
                     Console.ResetColor();
 
-                    ultimoUsoInamovilidad = DateTime.Now; // Registrar el último uso
+                    ultimoUsoInamovilidad = DateTime.Now;// Registrar el último uso.
                 }
                 else
                 {
@@ -1156,7 +1136,7 @@ class Program
                     Thread.Sleep(1500);
                     Console.ResetColor();
 
-                    ultimoUsoInamovilidad2 = DateTime.Now; // Registrar el último uso
+                    ultimoUsoInamovilidad2 = DateTime.Now;// Registrar el último uso.
                 }
                 else
                 {
@@ -1191,7 +1171,7 @@ class Program
                     Thread.Sleep(1500);
                     Console.ResetColor();
 
-                    ultimoUsoDios = DateTime.Now; // Registrar el último uso
+                    ultimoUsoDios = DateTime.Now;// Registrar el último uso.
                 }
                 else
                 {
@@ -1221,7 +1201,7 @@ class Program
                     Thread.Sleep(1500);
                     Console.ResetColor();
 
-                    ultimoUsoDios2 = DateTime.Now; // Registrar el último uso
+                    ultimoUsoDios2 = DateTime.Now;// Registrar el último uso.
                 }
                 else
                 {
@@ -1241,7 +1221,7 @@ class Program
         }
     }
 
-    static void ManejarPregunta(int jugador)//Método de la trampa pregunta
+    static void ManejarPregunta(int jugador)  //Método de la trampa pregunta.
     {
         Random rand = new Random();
         int question = rand.Next(1, 50);
@@ -1529,7 +1509,7 @@ class Program
             Console.WriteLine("¡Respuesta incorrecta! Pierdes una vida.");
             Console.ResetColor();
 
-            string[] opciones = preguntaTexto.Split('\n');//Método para crear las opciones de la pregunta en verde y rojo
+            string[] opciones = preguntaTexto.Split('\n');  //Método para crear las opciones de la pregunta en verde y rojo.
             Console.WriteLine("La pregunta era:");
             for (int i = 0; i < opciones.Length; i++)
             {
@@ -1576,7 +1556,7 @@ class Program
         Console.ReadKey();
     }
 
-    static void ReiniciarJugador(int jugador)//Método de la Trampa de Reinicio
+    static void ReiniciarJugador(int jugador)  //Método de la Trampa de Reinicio.
     {
         if (jugador == 1)
         {
@@ -1594,7 +1574,7 @@ class Program
         }
     }
 
-    private static void Beggining()
+    private static void Beggining() //Métodos para embellecer el juego.
     {
         string message = @"
  
@@ -1624,54 +1604,65 @@ class Program
 
 Reglas del Juego:
 
-          El juego se basa en un laberinto donde dos jugadores deben competir para ver quién logra llegar a la meta primero .
-          Evitando trampas y respondiendo preguntas correctamente sin perder todas las vidas en el intento.
+The Maze of Questions es un juego de aventuras y estrategia en el que dos jugadores deben competir para llegar a la meta antes que el otro. El juego se desarrolla en un laberinto donde los jugadores tendrán que seleccionar diversas habilidades que los ayudarán por el camino y debrán evitar trampas y responder preguntas correctamente para avanzar en el mapa.
 
-          Para conseguir este objetivo:
+Características del Juego:
 
-          Cada jugador tiene que seleccionar una habilidad especial antes de empezar el juego y que puede utilizar dentro del laberinto .
+Laberinto: El juego se desarrolla en un laberinto generado aleatoriamente, lo que garantiza una experiencia única en cada partida.
 
-          Habilidades Especiales:
-         
-          1-Teletransportación: permite al jugador teletransportarse a una posición aleatoria en el laberinto.
-          Para activar esta habilidad debes :
-          Presionar la tecla T si eres el jugador 1.
-          Presionar la tecla V si eres el jugador 2.
+Trampas: El laberinto está lleno de trampas que pueden hacer que los jugadores pierdan vidas o se reinicien.
 
-          2-Inmortalidad: al caer el jugador en una Trampa, este no pierde vidas porque es Inmortal  .
+Preguntas: Los jugadores deben responder preguntas correctamente para avanzar en el laberinto .
 
-          3-Inteligencia Suprema: al caer el jugador en una Pregunta , este no tiene que contestarlas porque es demasiado fácil para su intelecto .
+Habilidades especiales: Cada jugador puede seleccionar una habilidad especial al comienzo del juego, que puede utilizar para ayudarse en su aventura.
 
-          4- Inamovilidad: al caer el jugador en una Trampa de Reinicio , este no vuelve al inicio porque no quiere .
+Competencia: El juego es competitivo, y el jugador que llegue a la meta antes que el otro gana.
 
-          5-Dios: otorga al jugador las habilidades de Inmortalidad , Inteligencia Suprema e Inamovilidad.
+Cómo Jugar:
 
-          Estas habilidades especiales solo se pueden utlizar una  cantidad limitada de veces y se demoran un tiempo en recargrse por lo tanto se deben utilizar con sabiduría .
+-Selecciona una habilidad especial al comienzo del juego.
 
-          El Jugador 1  aparece en el laberinto como una : X.
-          El Jugador 2  aparece en el laberinto como una : O.
-          La Meta aparece en el laberinto como una : M.
+-Utiliza las teclas W, A, S, D para moverte en el laberinto (jugador 1) o las teclas de flecha (jugador 2). Los dos jugadores no pueden estar en la misma posición al mismo tiempo.
 
-          Cada jugador comienza con 3 vidas. Si un jugador pierde todas sus vidas, el juego termina y el otro jugador gana.
+-Evita trampas y responde preguntas correctamente para avanzar en el laberinto.
 
-          Como moverse dentro del laberinto:
+-Utiliza tus habilidades especiales para ayudarte en tu aventura.
 
-          El jugador 1 puede controlar su movimiento en el laberinto utilizando las teclas W, A, S, D .
-          El jugador 2 puede controlar su movimiento en el laberinto utilizando las teclas de flecha. 
+-El jugador que llegue a la meta antes que el otro gana , cada jugador comienza con 3 vidas , si un jugador pierde todas sus vidas, el juego termina y el otro jugador gana.
 
-          Los dos jugadores no pueden estar en la misma posición al mismo tiempo.
+Habilidades Especiales:
 
-          Tipos de Trampas:
+Teletransportación: Permite al jugador teletransportarse a una posición aleatoria en el laberinto. Para activar la Teletransportación debes : Presionar la tecla T si eres el jugador 1. Presionar la tecla V si eres el jugador 2.
 
-          Trampas   'T': hacen que el jugador pierda una vida.
+Inmortalidad: Hace que el jugador sea inmortal y no pierda vidas al caer en trampas.
 
-          Preguntas 'P': hacen que el jugador tenga que responder una pregunta. Si la respuesta es incorrecta, el jugador pierde una vida y si la respuesta es correcta gana una vida.
-          
-          Trampas de  Reinicio 'R': hacen que el jugador vuelva al inicio del laberinto.
+Inteligencia Suprema: Permite al jugador responder preguntas correctamente sin necesidad de pensar.
 
-           ¡Buena suerte!
+Inamovilidad: Hace que el jugador no se reinicie al caer en trampas de reinicio.
+
+Dios: Otorga al jugador las habilidades de Inmortalidad, Inteligencia Suprema e Inamovilidad.
+
+Estas habilidades especiales solo se pueden utlizar una cantidad limitada de veces y se demoran un tiempo en recargrse por lo tanto se deben utilizar con sabiduría durante la partida.
+
+Tipos de Trampas:
+
+      Trampas   'T': hacen que el jugador pierda una vida.
+
+      Preguntas 'P': hacen que el jugador tenga que responder una pregunta. Si la respuesta es incorrecta, el jugador pierde una vida y si la respuesta es correcta gana una vida.
+      
+      Trampas de  Reinicio 'R': hacen que el jugador vuelva al inicio del laberinto.
 
 
+Como se muestran en el laberinto los diferentes íconos:
+
+
+-El Jugador 1 aparece en el laberinto como una : X.
+
+-El Jugador 2 aparece en el laberinto como una : O.
+
+-La Meta aparece en el laberinto como una : M.
+
+-Las Paredes aparecen en el laberinto como un :#.    
         ";
         Console.Clear();
         Console.ForegroundColor = ConsoleColor.Red;
