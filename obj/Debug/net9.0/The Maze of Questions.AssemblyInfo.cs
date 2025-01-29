@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("The Maze of Questions")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+203ff93fbc59f303012d79cc2022cfd93fd69a6a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+55c616ac9aa8ca9afffeb2abee7a7479a5f6ee15")]
 [assembly: System.Reflection.AssemblyProductAttribute("The Maze of Questions")]
 [assembly: System.Reflection.AssemblyTitleAttribute("The Maze of Questions")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
