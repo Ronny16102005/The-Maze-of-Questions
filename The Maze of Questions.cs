@@ -1,52 +1,50 @@
 ﻿using System;
 class Program
 {
-    static int filas = 20;
-    static int columnas = 50;
+    static int filas = 31;//Cantidad de filas.
+    static int columnas = 31;//Cantidad de columnas.
 
 
     static char[,] laberinto = new char[filas, columnas];
 
-    static int jugadorX, jugadorY;
-    static int jugador2X, jugador2Y;
+
+    static int jugadorX, jugadorY;//Jugador 1
+    static int jugador2X, jugador2Y;//Jugador 2
+    static int metaX, metaY;//Meta
 
 
-    static int metaX, metaY;
+    static int vidas = 3;//Vidas J1
+    static int vidas2 = 3;//vidas J2
 
+    static string HabilidadJugador1 = "";//Habilidad del J1
+    static string HabilidadJugador2 = "";//Habilidad del J
 
-    static int vidas = 3;
-    static int vidas2 = 3;
-
-    static string HabilidadJugador1 = "";
-    static string HabilidadJugador2 = "";
-
-    static bool opcionValida = false;
+    static bool opcionValida = false;//Validacion de las opciones 
     static bool opcionValidaJugador1 = false;
     static bool opcionValidaJugador2 = false;
 
 
-
-    static bool Teletransportación = false;
+    static bool Teletransportación = false;//Habilidadesdel J1
     static bool Inmortalidad = false;
     static bool InteligenciaSuprema = false;
     static bool Inamovilidad = false;
     static bool Dios = false;
 
-    static int Teletransportación_Activa = 3;
-    static int Inmortalidad_Activa = 3;
-    static int InteligenciaSuprema_Activa = 3;
-    static int Inamovilidad_Activa = 3;
-    static int Dios_Activa = 3;
+    static int Teletransportación_Activa = 3;//Cantidad de veces que se puede usar cada Habilidad
+    static int Inmortalidad_Activa = 4;
+    static int InteligenciaSuprema_Activa = 4;
+    static int Inamovilidad_Activa = 4;
+    static int Dios_Activa = 2;
 
-    static DateTime ultimoUsoTeletransportacion = DateTime.MinValue;
+    static DateTime ultimoUsoTeletransportacion = DateTime.MinValue;//Método para calcular el tiempo de uso de cada habilidad del J1
     static DateTime ultimoUsoInmortalidad = DateTime.MinValue;
     static DateTime ultimoUsoInteligenciaSuprema = DateTime.MinValue;
     static DateTime ultimoUsoInamovilidad = DateTime.MinValue;
     static DateTime ultimoUsoDios = DateTime.MinValue;
 
-    static int cooldownTeletransportacion = 10; // 10 segundos de cooldown
-    static int cooldownInmortalidad = 15; // 15 segundos de cooldown
-    static int cooldownInteligenciaSuprema = 20; // 20 segundos de cooldown
+    static int cooldownTeletransportacion = 30; // 30 segundos de cooldown
+    static int cooldownInmortalidad = 25; // 25 segundos de cooldown
+    static int cooldownInteligenciaSuprema = 25; // 25 segundos de cooldown
     static int cooldownInamovilidad = 25; // 25 segundos de cooldown
     static int cooldownDios = 30; // 30 segundos de cooldown
 
@@ -60,32 +58,32 @@ class Program
 
 
     static int Teletransportación_Activa2 = 3;
-    static int Inmortalidad_Activa2 = 3;
-    static int InteligenciaSuprema_Activa2 = 3;
-    static int Inamovilidad_Activa2 = 3;
-    static int Dios_Activa2 = 3;
+    static int Inmortalidad_Activa2 = 4;
+    static int InteligenciaSuprema_Activa2 = 4;
+    static int Inamovilidad_Activa2 = 4;
+    static int Dios_Activa2 = 2;
 
 
-    static DateTime ultimoUsoTeletransportacion2 = DateTime.MinValue;
+    static DateTime ultimoUsoTeletransportacion2 = DateTime.MinValue;//Método para calcular el tiempo de uso de cada habilidad del J2
     static DateTime ultimoUsoInmortalidad2 = DateTime.MinValue;
     static DateTime ultimoUsoInteligenciaSuprema2 = DateTime.MinValue;
     static DateTime ultimoUsoInamovilidad2 = DateTime.MinValue;
     static DateTime ultimoUsoDios2 = DateTime.MinValue;
 
-    static int cooldownTeletransportacion2 = 10; // 10 segundos de cooldown
-    static int cooldownInmortalidad2 = 15; // 15 segundos de cooldown
-    static int cooldownInteligenciaSuprema2 = 20; // 20 segundos de cooldown
+    static int cooldownTeletransportacion2 =30 ; // 30 segundos de cooldown
+    static int cooldownInmortalidad2 = 25; // 25 segundos de cooldown
+    static int cooldownInteligenciaSuprema2 = 25; // 25 segundos de cooldown
     static int cooldownInamovilidad2 = 25; // 25 segundos de cooldown
     static int cooldownDios2 = 30; // 30 segundos de cooldown
 
 
-    static bool PuedeUsarHabilidad(DateTime ultimoUso, int cooldown)
+    static bool PuedeUsarHabilidad(DateTime ultimoUso, int cooldown)//Método para calcular si el J1 o el J2 puede usar una habilidad
     {
         return (DateTime.Now - ultimoUso).TotalSeconds >= cooldown;
     }
 
 
-    static void Main(string[] args)
+    static void Main(string[] args)//Main
     {
         Beggining();
 
@@ -111,13 +109,13 @@ class Program
                 case "1":                     //Game
 
                     laberinto = new char[filas, columnas];
+
                     SeleccionarHabilidad(1); // Metodos
                     SeleccionarHabilidad(2);
-                    InicializarLaberinto();  
+                    InicializarLaberinto();
                     GenerarLaberinto();
                     MostrarLaberinto();
-                    
-                   
+
 
                     while (vidas > 0 && vidas2 > 0)
                     {
@@ -137,12 +135,10 @@ class Program
                             MoverJugador(tecla.Key, 1);
                         }
 
-
                         if (tecla.Key == ConsoleKey.UpArrow || tecla.Key == ConsoleKey.DownArrow || tecla.Key == ConsoleKey.LeftArrow || tecla.Key == ConsoleKey.RightArrow)
                         {
                             MoverJugador(tecla.Key, 2);
                         }
-
 
                         if (jugadorX == metaX && jugadorY == metaY)
                         {
@@ -324,7 +320,7 @@ class Program
         }
     }
 
-static void SeleccionarHabilidad(int jugador)
+    static void SeleccionarHabilidad(int jugador)//Método para seleccionar habilidad
 
     {
         Console.Clear();
@@ -488,14 +484,12 @@ static void SeleccionarHabilidad(int jugador)
         }
         Console.ForegroundColor = ConsoleColor.DarkGray;
         Console.WriteLine("Presiona cualquier tecla para comenzar...");
-        
+
         Console.ResetColor();
         Console.ReadKey();
     }
 
-
-
-    static void InicializarLaberinto()
+    static void InicializarLaberinto()//Método de iniciar el laberinto
     {
         for (int i = 0; i < filas; i++)
         {
@@ -508,9 +502,7 @@ static void SeleccionarHabilidad(int jugador)
 
     static void GenerarLaberinto()
     {
-        ;
-        // Inicializa el laberinto con paredes en todas las casillas
-        for (int i = 0; i < filas; i++)
+        for (int i = 0; i < filas; i++)// Inicializa el laberinto con paredes en todas las casillas
         {
             for (int j = 0; j < columnas; j++)
             {
@@ -518,109 +510,89 @@ static void SeleccionarHabilidad(int jugador)
             }
         }
 
-        // Establece la posición de la meta en la esquina inferior derecha
-        metaX = filas - 2;
+        metaX = filas - 2; // Establece la posición de la meta en la esquina inferior derecha
         metaY = columnas - 2;
 
-        // Establece la posición de los jugadores en las esquinas superiores
-        jugadorX = 1;
+        jugadorX = 1; // Establece la posición de los jugadores en las esquinas superiores
         jugadorY = 1;
         jugador2X = 1;
-        jugador2Y =columnas - 2 ;
+        jugador2Y = columnas - 2;
 
-        // Genera el laberinto utilizando el método de backtrack
-        GenerarLaberintoBacktrack(jugadorX, jugadorY);
+        GenerarLaberintoBacktrack(jugadorX, jugadorY);// Genera el laberinto utilizando el método de backtrack
         GenerarLaberintoBacktrack(jugador2X, jugador2Y);
+        AgregarTrampas();// Agrega trampas al laberinto
 
-        // Agrega trampas al laberinto
-        AgregarTrampas();
-
-        // Establece la posición de la meta y los jugadores en el laberinto
-        laberinto[metaX, metaY] = 'M';
+        laberinto[metaX, metaY] = 'M';// Establece la posición de la meta y los jugadores en el laberinto
         laberinto[jugadorX, jugadorY] = 'X';
         laberinto[jugador2X, jugador2Y] = 'O';
     }
 
     static void GenerarLaberintoBacktrack(int x, int y)
     {
-        // Marca la casilla actual como visitada
-        laberinto[x, y] = ' ';
+        
+        laberinto[x, y] = ' ';// Marca la casilla actual como visitada
 
-        // Selecciona aleatoriamente una dirección para moverse
-        int[] dx = { -1, 1, 0, 0 };
+        int[] dx = { -1, 1, 0, 0 };// Selecciona aleatoriamente una dirección para moverse
         int[] dy = { 0, 0, -1, 1 };
         int[] direcciones = { 0, 1, 2, 3 };
         Shuffle(direcciones);
-
-        // Explora cada dirección
-        foreach (int direccion in direcciones)
+ 
+        foreach (int direccion in direcciones)// Explora cada dirección
         {
             int nx = x + 2 * dx[direccion];
             int ny = y + 2 * dy[direccion];
 
-            // Verifica si la casilla es válida y no ha sido visitada
-            if (nx >= 1 && nx < filas - 1 && ny >= 1 && ny < columnas - 1 && laberinto[nx, ny] == '#')
+            if (nx >= 1 && nx < filas - 1 && ny >= 1 && ny < columnas - 1 && laberinto[nx, ny] == '#') // Verifica si la casilla es válida y no ha sido visitada
             {
-                // Elimina la pared entre la casilla actual y la casilla siguiente
-                laberinto[x + dx[direccion], y + dy[direccion]] = ' ';
-
-                // Recursivamente explora la casilla siguiente
-                GenerarLaberintoBacktrack(nx, ny);
+                laberinto[x + dx[direccion], y + dy[direccion]] = ' '; // Elimina la pared entre la casilla actual y la casilla siguiente
+                GenerarLaberintoBacktrack(nx, ny); // Recursivamente explora la casilla siguiente
             }
         }
     }
 
     static void AgregarTrampas()
     {
-        int numTrampasT = 5;
+        int numTrampasT = 10;
         int numTrampasP = 20;
-        int numTrampasR = 5;
+        int numTrampasR = 10;
 
-        // Agrega trampas de tipo 'T' al laberinto
-        for (int i = 0; i < numTrampasT; i++)
+        for (int i = 0; i < numTrampasT; i++)// Agrega trampas de tipo 'T' al laberinto
         {
             int x = new Random().Next(1, filas - 1);
             int y = new Random().Next(1, columnas - 1);
 
-            // Verifica si la casilla es válida y no es una pared
-            if (laberinto[x, y] != '#')
+            if (laberinto[x, y] != '#') // Verifica si la casilla es válida y no es una pared
             {
-                // Agrega una trampa de tipo 'T'
-                laberinto[x, y] = 'T';
+               
+                laberinto[x, y] = 'T'; // Agrega una trampa de tipo 'T'
             }
         }
 
-        // Agrega trampas de tipo 'P' al laberinto
-        for (int i = 0; i < numTrampasP; i++)
+        for (int i = 0; i < numTrampasP; i++)  // Agrega trampas de tipo 'P' al laberinto
         {
             int x = new Random().Next(1, filas - 1);
             int y = new Random().Next(1, columnas - 1);
 
-            // Verifica si la casilla es válida y no es una pared
-            if (laberinto[x, y] != '#')
+            if (laberinto[x, y] != '#')// Verifica si la casilla es válida y no es una pared
             {
-                // Agrega una trampa de tipo 'P'
-                laberinto[x, y] = 'P';
+                laberinto[x, y] = 'P';// Agrega una trampa de tipo 'P'
             }
         }
 
-        // Agrega trampas de tipo 'R' al laberinto
-        for (int i = 0; i < numTrampasR; i++)
+       
+        for (int i = 0; i < numTrampasR; i++) // Agrega trampas de tipo 'R' al laberinto
         {
             int x = new Random().Next(1, filas - 1);
             int y = new Random().Next(1, columnas - 1);
 
-            // Verifica si la casilla es válida y no es una pared
-            if (laberinto[x, y] != '#')
+            if (laberinto[x, y] != '#') // Verifica si la casilla es válida y no es una pared
             {
-                // Agrega una trampa de tipo 'R'
-                laberinto[x, y] = 'R';
+                laberinto[x, y] = 'R';// Agrega una trampa de tipo 'R'
             }
         }
     }
 
-
-    static void Shuffle(int[] array)
+    static void Shuffle(int[] array)//Método para mezclar las direcciones
     {
         int n = array.Length;
         while (n > 1)
@@ -633,7 +605,7 @@ static void SeleccionarHabilidad(int jugador)
         }
     }
 
-    static void MostrarLaberinto()
+    static void MostrarLaberinto()//Método para mostrar el laberinto
     {
         Console.Clear();
         for (int i = 0; i < filas; i++)
@@ -699,7 +671,7 @@ static void SeleccionarHabilidad(int jugador)
 
     }
 
-    static void MoverJugador(ConsoleKey key, int jugador)
+    static void MoverJugador(ConsoleKey key, int jugador)//Método para mover el jugador
     {
         int nuevoX = (jugador == 1) ? jugadorX : jugador2X;
         int nuevoY = (jugador == 1) ? jugadorY : jugador2Y;
@@ -728,9 +700,7 @@ static void SeleccionarHabilidad(int jugador)
 
         if (nuevoX >= 0 && nuevoX < filas && nuevoY >= 0 && nuevoY < columnas && laberinto[nuevoX, nuevoY] != '#')
         {
-
-
-            if ((jugador == 1 && nuevoX == jugador2X && nuevoY == jugador2Y) ||
+            if ((jugador == 1 && nuevoX == jugador2X && nuevoY == jugador2Y) ||       //Método para que los dos jugadores no se toquen
                 (jugador == 2 && nuevoX == jugadorX && nuevoY == jugadorY))
             {
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -739,7 +709,7 @@ static void SeleccionarHabilidad(int jugador)
                 return;
             }
 
-            if (jugador == 1)
+            if (jugador == 1)//Método para dejar la casilla vacía una vez que se mueva el jugador
             {
                 laberinto[jugadorX, jugadorY] = ' ';
                 jugadorX = nuevoX;
@@ -753,16 +723,12 @@ static void SeleccionarHabilidad(int jugador)
             }
 
 
-
-
-            if (laberinto[nuevoX, nuevoY] == 'T')
+            if (laberinto[nuevoX, nuevoY] == 'T')//Si los jugadores caeen en una trampa 
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("¡ Jugador " + jugador + " has caído en una trampa ");
                 Thread.Sleep(1500);
                 Console.ResetColor();
-
-
 
                 if (jugador == 1 && Inmortalidad && Inmortalidad_Activa > 0)
                 {
@@ -819,7 +785,7 @@ static void SeleccionarHabilidad(int jugador)
             }
 
 
-            if (laberinto[nuevoX, nuevoY] == 'P')
+            if (laberinto[nuevoX, nuevoY] == 'P')//Si los jugadores caeen en una pregunta 
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("¡Jugador " + jugador + " has caído en una pregunta");
@@ -865,9 +831,8 @@ static void SeleccionarHabilidad(int jugador)
             }
 
 
-            if (laberinto[nuevoX, nuevoY] == 'R')
+            if (laberinto[nuevoX, nuevoY] == 'R')//Si los jugadores caeen en una trampa de reinicio
             {
-
                 Console.ForegroundColor = ConsoleColor.Magenta;
                 Console.WriteLine("¡Jugador " + jugador + " has caído en una trampa de reinicio");
                 Thread.Sleep(1500);
@@ -911,7 +876,6 @@ static void SeleccionarHabilidad(int jugador)
                 }
             }
 
-
             if (jugador == 1)
             {
                 laberinto[jugadorX, jugadorY] = 'X';
@@ -925,7 +889,7 @@ static void SeleccionarHabilidad(int jugador)
         }
     }
 
-    static void Teletransportar()
+    static void Teletransportar()//Método de la Habilidad de Teletransportación
     {
         if (PuedeUsarHabilidad(ultimoUsoTeletransportacion, cooldownTeletransportacion))
         {
@@ -1017,8 +981,7 @@ static void SeleccionarHabilidad(int jugador)
     }
 
 
-
-    static void UsarInmortalidad(int jugador)
+    static void UsarInmortalidad(int jugador)//Métodos para  poder usar las Habilidades
     {
         if (jugador == 1)
         {
@@ -1082,7 +1045,6 @@ static void SeleccionarHabilidad(int jugador)
             }
         }
     }
-
 
 
     static void UsarInteligenciaSuprema(int jugador)
@@ -1279,10 +1241,10 @@ static void SeleccionarHabilidad(int jugador)
         }
     }
 
-    static void ManejarPregunta(int jugador)
+    static void ManejarPregunta(int jugador)//Método de la trampa pregunta
     {
         Random rand = new Random();
-        int question = rand.Next(1, 54);
+        int question = rand.Next(1, 50);
         string respuestaCorrecta = "";
         string preguntaTexto = "";
 
@@ -1292,55 +1254,51 @@ static void SeleccionarHabilidad(int jugador)
                 preguntaTexto = "¿Cuál es la capital de Francia?\n1. Marsella\n2. París\n3. Burdeos";
                 respuestaCorrecta = "2";
                 break;
+
             case 2:
                 preguntaTexto = "¿Cuánto es 8 * 7?\n1. 56\n2. 64\n3. 72";
                 respuestaCorrecta = "1";
                 break;
+
             case 3:
                 preguntaTexto = "¿Quién pintó 'La noche estrellada'?\n1. Pablo Picasso\n2. Vincent van Gogh\n3. Claude Monet";
                 respuestaCorrecta = "2";
                 break;
+
             case 4:
                 preguntaTexto = "¿Quién escribió '100 Años de Soledad'?\n1. Gabriel García Marquez\n2. Miguel de Cervantes \n3. Federico García Lorca ";
                 respuestaCorrecta = "1";
                 break;
-
 
             case 5:
                 preguntaTexto = "¿Quién escribió la canción 'Como Camarón'?\n1. Ricardo Arjona\n2. Estopa\n3. Joaquin Sabina";
                 respuestaCorrecta = "2";
                 break;
 
-
             case 6:
                 preguntaTexto = "¿Quién pintó 'Viva la Vida'?\n1. Remedios Varo \n2. Salvador Dali \n3. Frida Khalo";
                 respuestaCorrecta = "3";
                 break;
-
 
             case 7:
                 preguntaTexto = "¿Quién pintó 'La última cena'?\n1. Pablo Picasso\n2. Vincent van Gogh\n3. Leonardo Da Vinci";
                 respuestaCorrecta = "3";
                 break;
 
-
             case 8:
                 preguntaTexto = "¿Quién escribió 'El código Da Vinci'?\n1. Lewis Carroll \n2. Leonardo Da Vinci\n3. Dan Brown ";
                 respuestaCorrecta = "3";
                 break;
-
 
             case 9:
                 preguntaTexto = "¿Quién escribió la canción 'Highway to Hell'?\n1. Red Hot Chili Peppers\n2. AC/DC \n3. Linkin Park ";
                 respuestaCorrecta = "2";
                 break;
 
-
             case 10:
                 preguntaTexto = "¿Quién pintó 'El tercer mundo'?\n1. Wilfredo Lam  \n2. Amelia Pelaéz   \n3. Eduardo Abela ";
                 respuestaCorrecta = "1";
                 break;
-
 
             case 11:
                 preguntaTexto = "¿Quién escribió 'El Arte de la Guerra'?\n1. Sun Tzu \n2. Charles Yu \n3. Kevin Kwan ";
@@ -1362,50 +1320,45 @@ static void SeleccionarHabilidad(int jugador)
                 respuestaCorrecta = "3";
                 break;
 
-
             case 15:
                 preguntaTexto = "¿Quién escribió la canción 'Somebody That I Used To Know'?\n1. Kado\n2. Gotye \n3. Hozier  ";
                 respuestaCorrecta = "2";
                 break;
+
             case 16:
                 preguntaTexto = "¿Cuál es la capital de Cuba'?\n1.La Habana\n2.Artemisa \n3. Pinar del Río ";
                 respuestaCorrecta = "1";
                 break;
-
 
             case 17:
                 preguntaTexto = "¿Cuál es la capital de Inglaterra'?\n1.Manchester\n2.Londres \n3. Liverpool  ";
                 respuestaCorrecta = "2";
                 break;
 
-
             case 18:
                 preguntaTexto = "¿Cuál es la capital de Alemania'?\n1. Berlín\n2. Hamburgo\n3. Múnich  ";
                 respuestaCorrecta = "1";
                 break;
-
 
             case 19:
                 preguntaTexto = "¿Cuál es la capital de Japón'?\n1. Osaka\n2. Kioto \n3. Tokio";
                 respuestaCorrecta = "3";
                 break;
 
-
             case 20:
                 preguntaTexto = "¿Cuál es la capital de España'?\n1.Madrid \n2.Barcelona \n3. Valencia ";
                 respuestaCorrecta = "1";
                 break;
 
-
             case 21:
                 preguntaTexto = "¿Cuál es la capital de Estados Unidos'?\n1.Whashington DC\n2. Miami \n3. Texas ";
                 respuestaCorrecta = "1";
                 break;
+
             case 22:
                 preguntaTexto = "¿Cuánto es 45 a la 2?\n1. 2025\n2. 4555\n3. 2500";
                 respuestaCorrecta = "1";
                 break;
-
 
             case 23:
                 preguntaTexto = "¿Cuál es el valor de Pi ?\n1. 1,43 \n2. 3,41\n3. 3,14";
@@ -1418,7 +1371,7 @@ static void SeleccionarHabilidad(int jugador)
                 break;
 
             case 25:
-                preguntaTexto = "¿Quién es el padre del Álgebra?\n1. Bolzano \n2.Euclides\n3.Muhammad ibn Musa al-Khwarizmi";
+                preguntaTexto = "¿Quién es el padre del Álgebra?\n1. Bolzano \n2. Euclides\n3. Muhammad ibn Musa al-Khwarizmi";
                 respuestaCorrecta = "3";
                 break;
 
@@ -1428,8 +1381,8 @@ static void SeleccionarHabilidad(int jugador)
                 break;
 
             case 27:
-                preguntaTexto = "¿Quién es el pintor de la obra 'La Mona Lisa'?\n1. Michelangelo \n2.Leonardo da Vinci Michelangelo\n3. Rafael";
-                respuestaCorrecta = "";
+                preguntaTexto = "¿Quién es el pintor de la obra 'La Mona Lisa'?\n1. Michelangelo \n2.Leonardo da Vinci \n3. Rafael";
+                respuestaCorrecta = "2";
                 break;
 
             case 28:
@@ -1438,7 +1391,7 @@ static void SeleccionarHabilidad(int jugador)
                 break;
 
             case 29:
-                preguntaTexto = "¿Quién es el autor de la canción 'Imagine'?\n1.George Harrison \n2. Paul McCartney\n3. John Lennon";
+                preguntaTexto = "¿Quién es el autor de la canción 'Imagine'?\n1. George Harrison \n2. Paul McCartney\n3. John Lennon";
                 respuestaCorrecta = "3";
                 break;
 
@@ -1448,7 +1401,7 @@ static void SeleccionarHabilidad(int jugador)
                 break;
 
             case 31:
-                preguntaTexto = "¿Quién es el actor que interpretó a Luke Skywalker en la saga 'Star Wars'?\n1.Harrison Fordl\n2. Mark Hamill \n3. Carrie Fisher";
+                preguntaTexto = "¿Quién es el actor que interpretó a Luke Skywalker en la saga 'Star Wars'?\n1. Harrison Fordl\n2. Mark Hamill \n3. Carrie Fisher";
                 respuestaCorrecta = "2";
                 break;
 
@@ -1458,7 +1411,7 @@ static void SeleccionarHabilidad(int jugador)
                 break;
 
             case 33:
-                preguntaTexto = "¿Quién es el autor de la novela '1984'?\n1.Ray Bradbury \n2. Aldous Huxley\n3.George Orwell ";
+                preguntaTexto = "¿Quién es el autor de la novela '1984'?\n1. Ray Bradbury \n2. Aldous Huxley\n3. George Orwell ";
                 respuestaCorrecta = "3";
                 break;
 
@@ -1466,8 +1419,6 @@ static void SeleccionarHabilidad(int jugador)
                 preguntaTexto = "¿Cuál es el nombre del planeta más cercano al sol?\n1. Mercurio\n2. Venus\n3. Tierra";
                 respuestaCorrecta = "1";
                 break;
-
-
 
             case 35:
                 preguntaTexto = "¿Cuál es el nombre del río más ancho del mundo?\n1. Nilo \n2.Amazonas\n3. Yangtsé";
@@ -1480,21 +1431,17 @@ static void SeleccionarHabilidad(int jugador)
                 break;
 
             case 37:
-                preguntaTexto = "¿Cuál es el nombre del videojuego más jugado de la historia?\n1. Minecraft\n2. Grand Theft Auto V\n3. PlayerUnknown's Battlegrounds";
+                preguntaTexto = "¿Quién es el autor de la canción 'Stairway to Heaven'?\n1. Led Zeppelin\n2. Pink Floyd\n3. Queen";
                 respuestaCorrecta = "1";
                 break;
-
-
 
             case 38:
                 preguntaTexto = "¿Quién es el autor de la novela 'El señor de los anillos'?\n1. J.R.R. Tolkien\n2. George R.R. Martin\n3. J.K. Rowling";
                 respuestaCorrecta = "1";
                 break;
 
-
-
             case 39:
-                preguntaTexto = "¿Quién es el cantante principal de la banda 'The Rolling Stones'?\n1.Charlie Watts \n2. Keith Richards\n3.Mick Jagger ";
+                preguntaTexto = "¿Quién es el cantante principal de la banda 'The Rolling Stones'?\n1. Charlie Watts \n2. Keith Richards\n3. Mick Jagger ";
                 respuestaCorrecta = "3";
                 break;
 
@@ -1509,16 +1456,14 @@ static void SeleccionarHabilidad(int jugador)
                 break;
 
             case 42:
-                preguntaTexto = "¿Cuál es el nombre del río más ancho de África?\n1.Congo \n2.Nilo \n3. Zambeze";
+                preguntaTexto = "¿Cuál es el nombre del río más ancho de África?\n1. Congo \n2. Nilo \n3. Zambeze";
                 respuestaCorrecta = "2";
                 break;
 
             case 43:
-                preguntaTexto = "¿Quién es el autor de la canción 'Hotel California'?\n1.Pink Floyd \n2.The Eagles \n3. Queen";
+                preguntaTexto = "¿Quién es el autor de la canción 'Hotel California'?\n1. Pink Floyd \n2. The Eagles \n3. Queen";
                 respuestaCorrecta = "2";
                 break;
-
-
 
             case 44:
                 preguntaTexto = "¿Cuál es el nombre del famoso científico que descubrió la penicilina?\n1. Alexander Fleming\n2. Louis Pasteur\n3. Robert Koch";
@@ -1526,7 +1471,7 @@ static void SeleccionarHabilidad(int jugador)
                 break;
 
             case 45:
-                preguntaTexto = "¿Quién es el autor de la novela 'El alquimista'?\n1.Isabel Allende \n2. Gabriel García Márquez\n3.Paulo Coelho ";
+                preguntaTexto = "¿Quién es el autor de la novela 'El alquimista'?\n1. Isabel Allende \n2. Gabriel García Márquez\n3. Paulo Coelho ";
                 respuestaCorrecta = "3";
                 break;
 
@@ -1536,49 +1481,25 @@ static void SeleccionarHabilidad(int jugador)
                 break;
 
             case 47:
-                preguntaTexto = "¿Quién es el cantante principal de la banda 'Queen'?\n1.  Brian May\n2.Freddie Mercury\n3. Roger Taylor";
+                preguntaTexto = "¿Quién es el cantante principal de la banda 'Queen'?\n1.  Brian May\n2. Freddie Mercury\n3. Roger Taylor";
                 respuestaCorrecta = "2";
                 break;
 
-
-
             case 48:
-                preguntaTexto = "¿Quién es el autor de la novela 'El señor de los anillos'?\n1. J.R.R. Tolkien\n2. George R.R. Martin\n3. J.K. Rowling";
-                respuestaCorrecta = "1";
-                break;
-
-            case 49:
                 preguntaTexto = "¿Cuál es el nombre del planeta más pequeño del sistema solar?\n1. Mercurio\n2. Venus\n3. Marte";
                 respuestaCorrecta = "1";
                 break;
 
-
+             case 49:
+                preguntaTexto = "¿Cuál es el nombre del famoso científico que descubrió la gravedad?\n1. Galileo Galilei \n2. Isaac Newton \n3. Albert Einstein";
+                respuestaCorrecta = "2";
+                break;   
 
             case 50:
                 preguntaTexto = "¿Cuál es el nombre del río más ancho de Asia?\n1. Yangtsé\n2. Mekong\n3. Amur";
                 respuestaCorrecta = "1";
                 break;
-
-            case 51:
-                preguntaTexto = "¿Quién es el autor de la canción 'Stairway to Heaven'?\n1. Led Zeppelin\n2. Pink Floyd\n3. Queen";
-                respuestaCorrecta = "1";
-                break;
-
-
-
-            case 52:
-                preguntaTexto = "¿Cuál es el nombre del famoso científico que descubrió la gravedad?\n1.Galileo Galilei \n2.Isaac Newton \n3. Albert Einstein";
-                respuestaCorrecta = "2";
-                break;
-
-            case 53:
-                preguntaTexto = "¿Cuál es el nombre del planeta más lejano del sol?\n1. Neptuno\n2. Urano\n3. Plutón";
-                respuestaCorrecta = "1";
-                break;
-
-
         }
-
         Console.ForegroundColor = ConsoleColor.Yellow;
         Console.WriteLine($"Pregunta para el Jugador {jugador}:");
         Console.WriteLine(preguntaTexto);
@@ -1601,7 +1522,6 @@ static void SeleccionarHabilidad(int jugador)
             {
                 vidas2++;
             }
-
         }
         else
         {
@@ -1609,7 +1529,7 @@ static void SeleccionarHabilidad(int jugador)
             Console.WriteLine("¡Respuesta incorrecta! Pierdes una vida.");
             Console.ResetColor();
 
-            string[] opciones = preguntaTexto.Split('\n');
+            string[] opciones = preguntaTexto.Split('\n');//Método para crear las opciones de la pregunta en verde y rojo
             Console.WriteLine("La pregunta era:");
             for (int i = 0; i < opciones.Length; i++)
             {
@@ -1656,7 +1576,7 @@ static void SeleccionarHabilidad(int jugador)
         Console.ReadKey();
     }
 
-    static void ReiniciarJugador(int jugador)
+    static void ReiniciarJugador(int jugador)//Método de la Trampa de Reinicio
     {
         if (jugador == 1)
         {
@@ -1701,17 +1621,8 @@ static void SeleccionarHabilidad(int jugador)
 ██╔══██╗██║   ██║██║     ██╔══╝  ╚════██║    ██║   ██║██╔══╝         ██║   ██╔══██║██╔══╝      ██║   ██║██╔══██║██║╚██╔╝██║██╔══╝  
 ██║  ██║╚██████╔╝███████╗███████╗███████║    ╚██████╔╝██║            ██║   ██║  ██║███████╗    ╚██████╔╝██║  ██║██║ ╚═╝ ██║███████╗
 ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚══════╝╚══════╝     ╚═════╝ ╚═╝            ╚═╝   ╚═╝  ╚═╝╚══════╝     ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝
-                                                                                                                                                                                                                                                                                                                                                                             
-        ";
-        Console.Clear();
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine(message);
-        Console.ResetColor();
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine(" Reglas del Juego: ");
-        Console.ResetColor();
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine(@"
+
+Reglas del Juego:
 
           El juego se basa en un laberinto donde dos jugadores deben competir para ver quién logra llegar a la meta primero .
           Evitando trampas y respondiendo preguntas correctamente sin perder todas las vidas en el intento.
@@ -1723,7 +1634,6 @@ static void SeleccionarHabilidad(int jugador)
           Habilidades Especiales:
          
           1-Teletransportación: permite al jugador teletransportarse a una posición aleatoria en el laberinto.
-
           Para activar esta habilidad debes :
           Presionar la tecla T si eres el jugador 1.
           Presionar la tecla V si eres el jugador 2.
@@ -1738,14 +1648,11 @@ static void SeleccionarHabilidad(int jugador)
 
           Estas habilidades especiales solo se pueden utlizar una  cantidad limitada de veces y se demoran un tiempo en recargrse por lo tanto se deben utilizar con sabiduría .
 
-
-        
           El Jugador 1  aparece en el laberinto como una : X.
           El Jugador 2  aparece en el laberinto como una : O.
           La Meta aparece en el laberinto como una : M.
 
           Cada jugador comienza con 3 vidas. Si un jugador pierde todas sus vidas, el juego termina y el otro jugador gana.
-
 
           Como moverse dentro del laberinto:
 
@@ -1753,7 +1660,6 @@ static void SeleccionarHabilidad(int jugador)
           El jugador 2 puede controlar su movimiento en el laberinto utilizando las teclas de flecha. 
 
           Los dos jugadores no pueden estar en la misma posición al mismo tiempo.
-
 
           Tipos de Trampas:
 
@@ -1763,15 +1669,16 @@ static void SeleccionarHabilidad(int jugador)
           
           Trampas de  Reinicio 'R': hacen que el jugador vuelva al inicio del laberinto.
 
-        
            ¡Buena suerte!
-        
-          
-          ");
+
+
+        ";
+        Console.Clear();
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine(message);
         Console.ResetColor();
         Console.ForegroundColor = ConsoleColor.Red;
         Console.WriteLine("Press any key...");
-
     }
 
     private static void ComeBackSoon()
@@ -1882,8 +1789,3 @@ static void SeleccionarHabilidad(int jugador)
         Console.ResetColor();
     }
 }
-
-
-
-
-
