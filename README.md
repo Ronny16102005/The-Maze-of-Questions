@@ -2,7 +2,7 @@
 
 Descripción del Juego:
 
-The Maze of Questions es un juego de aventuras y estrategia en el que dos jugadores deben competir para llegar a la meta antes que el otro. El juego se desarrolla en un laberinto donde los jugadores deben evitar trampas y responder preguntas correctamente para avanzar usando diversas habilidades que lo ayudarán por el camino.
+The Maze of Questions es un juego de aventuras y estrategia en el que dos jugadores deben competir para llegar a la meta antes que el otro. El juego se desarrolla en un laberinto donde los jugadores tendrán que seleccionar diversas habilidades que los ayudarán por el camino y debrán evitar trampas y responder preguntas correctamente para avanzar en e mapa.
 
 
 Características del Juego:
