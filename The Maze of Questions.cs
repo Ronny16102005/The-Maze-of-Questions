@@ -1,7 +1,7 @@
 ﻿using System;
 class Program
 {
-    static int filas = 31;  //Cantidad de filas.
+    static int filas = 21;  //Cantidad de filas.
     static int columnas = 31;  //Cantidad de columnas.
 
 
@@ -1568,7 +1568,7 @@ class Program
         else
         {
             laberinto[jugador2X, jugador2Y] = ' ';
-            jugador2X = 1;
+            jugador2X = filas - 2 ;
             jugador2Y = columnas - 2;
             laberinto[jugador2X, jugador2Y] = 'O';
         }
