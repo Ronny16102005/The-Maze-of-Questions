@@ -68,7 +68,8 @@ Como se muestran en el laberinto los diferentes íconos:
 
 -Las Paredes aparecen en el laberinto como un :#.
 
-![image](https://github.com/user-attachments/assets/546a4c13-31c5-4ad4-9641-34c49adde254)
+![Screenshot 2025-01-29 173022](https://github.com/user-attachments/assets/eff573b7-a5a6-4158-8bdf-d9cc0cffaa5c)
+
 
            
 Licencia:
