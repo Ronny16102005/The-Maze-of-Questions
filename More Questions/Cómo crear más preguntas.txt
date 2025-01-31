@@ -1,0 +1,9 @@
+ case //El número que le sigue al último caso hecho :
+                
+                preguntaTexto = "¿ //Pregunta ?\n1. //Respuesta 1 \n2. //Respuesta 2 \n3. //Respuesta 3 ";
+                respuestaCorrecta = "Número de la respuesta corecta";
+                break
+
+
+
+-Solo debe haber una respuesta corecta o verdadera y dos que sean falsas .

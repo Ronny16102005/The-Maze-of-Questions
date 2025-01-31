@@ -1640,7 +1640,7 @@ Inamovilidad: Hace que el jugador no se reinicie al caer en trampas de reinicio.
 
 Dios: Otorga al jugador las habilidades de Inmortalidad, Inteligencia Suprema e Inamovilidad.
 
-Estas habilidades especiales solo se pueden utlizar una cantidad limitada de veces y se demoran un tiempo en recargrse por lo tanto se deben utilizar con sabiduría durante la partida.
+Estas habilidades especiales solo se pueden utilizar una cantidad limitada de veces y se demoran un tiempo en recargarse por lo tanto se deben utilizar con sabiduría durante la partida.
 
 Tipos de Trampas:
 
