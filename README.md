@@ -1,3 +1,4 @@
-Porfavor vaya a la rama Master 
-Gracias
+Porfavor vaya a la rama Master. 
+
+Gracias.
 
